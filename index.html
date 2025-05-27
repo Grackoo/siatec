@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIA TEC: Tu Solución en Laptops</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'accent-blue': '#00BFFF', // Azul Eléctrico/Cian Vibrante
+                        'accent-green': '#7FFF00', // Verde Neón/Lima Brillante
+                        'base-light': '#F9FAFB', // Gris muy claro para fondo
+                        'text-dark': '#333333',  // Gris oscuro para texto
+                    },
+                    fontFamily: {
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        'open-sans': ['Open Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #333333; /* Color de texto secundario */
+            background-color: #F9FAFB; /* Color de fondo principal */
+            overflow-x: hidden; /* Evita el scroll horizontal */
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #333333;
+        }
+        /* Estilos para el scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9FAFB;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00BFFF;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0099CC;
+        }
+
+        /* Animación de micro-interacción para botones */
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        }
+        .btn-green-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(127, 255, 0, 0.3);
+        }
+
+        /* Animación para tarjetas de producto */
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para el modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem; /* Bordes redondeados */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px; /* Aumentado para el diagnóstico */
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            max-height: 90vh; /* Para que el contenido no se salga en pantallas pequeñas */
+            overflow-y: auto; /* Scroll si el contenido es muy largo */
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #00BFFF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Estilo para precio tachado */
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.9em;
+        }
+        /* Estilo para el badge de oferta */
+        .offer-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: #FF4500; /* Naranja para ofertas */
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white shadow-md py-4 px-6 md:px-12 flex justify-between items-center rounded-b-xl">
+        <div class="flex items-center">
+            <img src="https://placehold.co/40x40/00BFFF/FFFFFF?text=SIA" alt="SIA TEC Logo" class="h-10 w-10 mr-3 rounded-lg">
+            <span class="text-2xl font-montserrat font-bold text-text-dark">SIA TEC</span>
+        </div>
+
+        <nav class="hidden md:flex space-x-8">
+            <a href="#hero" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Inicio</a>
+            <a href="#offers" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Ofertas</a>
+            <a href="#products" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Laptops</a>
+            <a href="#services" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Reparación</a>
+            <a href="#contact" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Contacto</a>
+        </nav>
+
+        <div class="flex items-center space-x-6">
+            <div class="relative">
+                <input type="text" id="search-input" placeholder="Buscar..." class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-48 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm">
+                <button id="search-toggle" class="text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <button id="cart-icon" class="relative text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+            </button>
+            <button id="mobile-menu-button" class="md:hidden text-text-dark text-xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-4 px-6 rounded-b-xl">
+        <nav class="flex flex-col space-y-4 items-center">
+            <a href="#hero" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Inicio</a>
+            <a href="#offers" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ofertas</a>
+            <a href="#products" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Laptops</a>
+            <a href="#services" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Reparación</a>
+            <a href="#contact" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contacto</a>
+        </nav>
+    </div>
+
+    <section id="hero" class="relative bg-cover bg-center h-screen flex items-center justify-center text-center rounded-b-xl"
+        style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF/png?text=Tecnologia+SIA+TEC');">
+        <div class="absolute inset-0 bg-black opacity-60 rounded-b-xl"></div>
+        <div class="relative z-10 p-8 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-montserrat font-bold text-white leading-tight mb-6">SIA TEC: Tu Solución en Laptops.</h1>
+            <p class="text-xl md:text-2xl font-open-sans text-gray-200 mb-10">Venta y Reparación de Laptops con Garantía y Eficiencia.</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="#products" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Explora Laptops</a>
+                <a href="#services" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Solicita Reparación</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="offers" class="py-16 px-6 md:px-12 bg-white">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Ofertas Exclusivas 🔥</h2>
+        <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            </div>
+    </section>
+
+    <section id="products" class="py-16 px-6 md:px-12 bg-base-light">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Nuestras Laptops</h2>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-10">
+            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Todas</button>
+            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Dell</button>
+            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">HP</button>
+            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Lenovo</button>
+            <button class="bg-white text-text-dark px-5 py-2 rounded-full border border-gray-300 hover:bg-accent-blue hover:text-white transition duration-300 rounded-xl">Asus</button>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            </div>
+    </section>
+
+    <section id="services" class="py-16 px-6 md:px-12 bg-white">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Servicios de Reparación</h2>
+        <div class="max-w-3xl mx-auto text-center">
+            <p class="text-lg font-open-sans mb-8">En SIA TEC, ofrecemos un servicio de reparación de laptops integral y confiable. Desde diagnósticos precisos hasta reparaciones de hardware y software, nuestro equipo de expertos está listo para devolverle la vida a tu equipo.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                    <i class="fas fa-microchip text-4xl text-accent-blue mb-4"></i>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Reparación de Hardware</h3>
+                    <p class="text-md font-open-sans">Cambio de pantallas, teclados, baterías, discos duros, y componentes internos.</p>
+                </div>
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                    <i class="fas fa-laptop-code text-4xl text-accent-blue mb-4"></i>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Mantenimiento de Software</h3>
+                    <p class="text-md font-open-sans">Eliminación de virus, optimización de sistema, instalación de sistemas operativos.</p>
+                </div>
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                    <i class="fas fa-diagnoses text-4xl text-accent-blue mb-4"></i>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Diagnóstico y Asesoría</h3>
+                    <p class="text-md font-open-sans">Diagnóstico gratuito y asesoramiento personalizado para tus necesidades.</p>
+                </div>
+                <div class="bg-base-light p-8 rounded-xl shadow-sm hover:shadow-lg transition duration-300">
+                    <i class="fas fa-fan text-4xl text-accent-blue mb-4"></i>
+                    <h3 class="text-2xl font-montserrat font-semibold mb-3">Limpieza y Optimización</h3>
+                    <p class="text-md font-open-sans">Limpieza interna, cambio de pasta térmica y optimización de rendimiento.</p>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mt-8">
+                <a href="#" id="cotizar-reparacion-btn" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Cotizar Reparación</a>
+                <button id="ai-diagnosis-btn" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                    Diagnóstico Inteligente ✨
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 px-6 md:px-12 bg-base-light">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">¿Por Qué Elegir SIA TEC?</h2>
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="text-center md:text-left">
+                <p class="text-lg font-open-sans leading-relaxed mb-6">En SIA TEC, nos apasiona la tecnología y nos dedicamos a ofrecer soluciones integrales para tus laptops. Con años de experiencia, un equipo de técnicos certificados y un compromiso inquebrantable con la calidad, somos tu socio tecnológico de confianza.</p>
+                <p class="text-lg font-open-sans leading-relaxed">Nuestra misión es brindarte productos de alta calidad y servicios de reparación eficientes, garantizando que tu experiencia tecnológica sea siempre la mejor.</p>
+            </div>
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <p class="text-md italic font-open-sans text-gray-700 mb-3">"Excelente servicio de reparación, mi laptop quedó como nueva. ¡Totalmente recomendados!"</p>
+                    <p class="text-sm font-montserrat font-semibold text-accent-blue">- Ana G.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <p class="text-md italic font-open-sans text-gray-700 mb-3">"Compré mi laptop aquí y la atención fue de primera. Muy satisfecho con mi compra."</p>
+                    <p class="text-sm font-montserrat font-semibold text-accent-blue">- Carlos M.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-text-dark text-white py-12 px-6 md:px-12 rounded-t-xl">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-montserrat font-bold mb-4">Contacto</h3>
+                <p class="text-md font-open-sans mb-2"><i class="fas fa-phone-alt mr-2 text-accent-blue"></i> +52 55 1234 5678</p>
+                <p class="text-md font-open-sans mb-2"><i class="fas fa-envelope mr-2 text-accent-blue"></i> info@siatec.com</p>
+                <p class="text-md font-open-sans"><i class="fas fa-map-marker-alt mr-2 text-accent-blue"></i> Pachuca, Hidalgo, México</p>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-montserrat font-bold mb-4">Enlaces</h3>
+                <ul class="space-y-2">
+                    <li><a href="#hero" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Inicio</a></li>
+                    <li><a href="#offers" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Ofertas</a></li>
+                    <li><a href="#products" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Laptops</a></li>
+                    <li><a href="#services" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Reparación</a></li>
+                    <li><a href="#about" class="text-md font-open-sans hover:text-accent-blue transition duration-300">Sobre Nosotros</a></li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col items-start md:items-end">
+                <h3 class="text-xl font-montserrat font-bold mb-4">Síguenos</h3>
+                <div class="flex space-x-4 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-twitter"></i></a>
+                </div>
+                <p class="text-sm font-open-sans text-gray-400">&copy; 2025 SIA TEC. Todos los derechos reservados.</p>
+                <a href="#" class="text-sm font-open-sans text-gray-400 hover:text-accent-blue transition duration-300 mt-2">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-3xl font-montserrat font-bold">Tu Carrito</h3>
+                <button id="close-cart-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none">&times;</button>
+            </div>
+            <div id="cart-items-list" class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                <p class="text-gray-500 text-center" id="empty-cart-message">Tu carrito está vacío.</p>
+            </div>
+            <div class="border-t border-gray-200 mt-6 pt-4 flex justify-between items-center">
+                <span class="text-xl font-montserrat font-semibold">Total:</span>
+                <span id="cart-total" class="text-2xl font-montserrat font-bold text-accent-blue">$0.00</span>
+            </div>
+            <button id="checkout-btn" class="w-full bg-accent-blue text-white font-montserrat font-semibold py-3 mt-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <div id="whatsapp-modal-overlay" class="modal-overlay">
+        <div class="modal-content text-center">
+            <div class="flex justify-end">
+                <button id="close-whatsapp-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none">&times;</button>
+            </div>
+            <i class="fab fa-whatsapp text-6xl text-green-500 mb-6"></i>
+            <h3 class="text-3xl font-montserrat font-bold mb-4">¡Casi Listo!</h3>
+            <p class="text-lg font-open-sans mb-8">Estás a punto de finalizar tu pedido vía WhatsApp Business. Haz clic en el botón para enviar los detalles y que uno de nuestros asesores te contacte.</p>
+            <button id="send-whatsapp-btn" class="w-full bg-green-500 text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-3 rounded-xl">
+                <i class="fab fa-whatsapp text-2xl"></i>
+                <span>Enviar Pedido por WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="diagnosis-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-3xl font-montserrat font-bold">Diagnóstico Inteligente ✨</h3>
+                <button id="close-diagnosis-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none">&times;</button>
+            </div>
+            <p class="text-md font-open-sans mb-4">Describe el problema de tu laptop. Nuestro asistente de IA te dará un diagnóstico preliminar.</p>
+            <textarea id="problem-description" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-32 mb-6" placeholder="Ejemplo: Mi laptop no enciende, solo parpadea una luz..."></textarea>
+            <button id="get-diagnosis-btn" class="w-full bg-accent-blue text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                Obtener Diagnóstico
+            </button>
+            <div id="diagnosis-result" class="mt-8 p-4 bg-base-light rounded-xl border border-gray-200 hidden">
+                <h4 class="text-xl font-montserrat font-bold mb-3">Resultado del Diagnóstico:</h4>
+                <div id="diagnosis-text" class="text-md font-open-sans leading-relaxed"></div>
+            </div>
+            <div id="diagnosis-loader" class="loader hidden"></div>
+            <p id="diagnosis-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.</p>
+        </div>
+    </div>
+
+
+    <script>
+        // Array para almacenar los productos en el carrito
+        let cart = [];
+
+        // Datos de productos de ejemplo con stock y ofertas
+        const products = [
+            {
+                id: 1,
+                name: 'Laptop Dell XPS 15',
+                originalPrice: 25000.00, // Precio original
+                price: 20000.00, // Precio con descuento
+                description: 'Potente laptop con procesador Intel Core i7 y 16GB de RAM.',
+                image: 'https://placehold.co/400x300/00BFFF/FFFFFF?text=Dell+XPS+15',
+                stock: 5,
+                isOnOffer: true,
+                discountPercentage: '20%'
+            },
+            {
+                id: 2,
+                name: 'HP Spectre x360',
+                originalPrice: 22000.00,
+                price: 18700.00, // Precio con descuento
+                description: 'Diseño elegante y versátil 2 en 1 con pantalla táctil.',
+                image: 'https://placehold.co/400x300/7FFF00/333333?text=HP+Spectre',
+                stock: 3,
+                isOnOffer: true,
+                discountPercentage: '15%'
+            },
+            {
+                id: 3,
+                name: 'Lenovo ThinkPad X1 Carbon',
+                originalPrice: 31000.00, // Precio original
+                price: 28000.00,
+                description: 'Durabilidad y rendimiento para profesionales, ultraligera.',
+                image: 'https://placehold.co/400x300/00BFFF/FFFFFF?text=ThinkPad',
+                stock: 7,
+                isOnOffer: true,
+                discountPercentage: '10%'
+            },
+            {
+                id: 4,
+                name: 'Asus ROG Zephyrus G14',
+                price: 30000.00,
+                description: 'Laptop gamer compacta con gráficos NVIDIA GeForce.',
+                image: 'https://placehold.co/400x300/7FFF00/333333?text=Asus+ROG',
+                stock: 4,
+                isOnOffer: false
+            },
+            {
+                id: 5,
+                name: 'Apple MacBook Air M2',
+                price: 26000.00,
+                description: 'Rendimiento excepcional y diseño icónico con chip M2.',
+                image: 'https://placehold.co/400x300/00BFFF/FFFFFF?text=MacBook+Air' ,
+                stock: 6,
+                isOnOffer: false
+            },
+            {
+                id: 6,
+                name: 'Microsoft Surface Laptop 5',
+                price: 19000.00,
+                description: 'Elegancia y productividad con pantalla PixelSense.',
+                image: 'https://placehold.co/400x300/7FFF00/333333?text=Surface+Laptop',
+                stock: 8,
+                isOnOffer: false
+            },
+        ];
+
+        // Referencias a elementos del DOM
+        const productGrid = document.getElementById('product-grid');
+        const offersGrid = document.getElementById('offers-grid'); // Nuevo: para la sección de ofertas
+        const cartIcon = document.getElementById('cart-icon');
+        const cartCount = document.getElementById('cart-count');
+        const cartModalOverlay = document.getElementById('cart-modal-overlay');
+        const closeCartModalBtn = document.getElementById('close-cart-modal');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+
+        const whatsappModalOverlay = document.getElementById('whatsapp-modal-overlay');
+        const closeWhatsappModalBtn = document.getElementById('close-whatsapp-modal');
+        const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
+
+        const searchToggle = document.getElementById('search-toggle');
+        const searchInput = document.getElementById('search-input');
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Referencias para el Asistente de Diagnóstico
+        const aiDiagnosisBtn = document.getElementById('ai-diagnosis-btn');
+        const diagnosisModalOverlay = document.getElementById('diagnosis-modal-overlay');
+        const closeDiagnosisModalBtn = document.getElementById('close-diagnosis-modal');
+        const problemDescriptionTextarea = document.getElementById('problem-description');
+        const getDiagnosisBtn = document.getElementById('get-diagnosis-btn');
+        const diagnosisResultDiv = document.getElementById('diagnosis-result');
+        const diagnosisTextDiv = document.getElementById('diagnosis-text');
+        const diagnosisLoader = document.getElementById('diagnosis-loader');
+        const diagnosisError = document.getElementById('diagnosis-error');
+
+
+        // Función para renderizar un producto individual (usado por ambas secciones)
+        function createProductCard(product) {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative'; // Añadido 'relative' para el badge
+
+            let priceHtml = `<span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>`;
+            let offerBadge = '';
+
+            if (product.isOnOffer) {
+                priceHtml = `
+                    <span class="original-price mr-2">$${product.originalPrice.toFixed(2)}</span>
+                    <span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>
+                `;
+                offerBadge = `<span class="offer-badge">¡${product.discountPercentage} OFF!</span>`;
+            }
+
+            const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
+            const stockColor = product.stock > 0 ? 'text-gray-500' : 'text-red-500 font-semibold';
+            const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
+            const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
+
+
+            productCard.innerHTML = `
+                ${offerBadge}
+                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover mb-4 rounded-lg">
+                <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
+                <p class="text-sm font-open-sans text-gray-600 mb-2 flex-grow">${product.description}</p>
+                <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
+                <div class="flex justify-between items-center mt-auto">
+                    <div>${priceHtml}</div>
+                    <button data-product-id="${product.id}" class="add-to-cart-btn bg-accent-blue text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}" ${product.stock === 0 ? 'disabled' : ''}>
+                        ${buttonText}
+                    </button>
+                </div>
+            `;
+            return productCard;
+        }
+
+        // Función para renderizar los productos en la sección principal
+        function renderProducts() {
+            productGrid.innerHTML = '';
+            products.filter(p => !p.isOnOffer).forEach(product => { // Mostrar solo los que NO están en oferta aquí
+                productGrid.appendChild(createProductCard(product));
+            });
+            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+        }
+
+        // Función para renderizar los productos en oferta
+        function renderOffers() {
+            offersGrid.innerHTML = '';
+            products.filter(p => p.isOnOffer).forEach(product => {
+                offersGrid.appendChild(createProductCard(product));
+            });
+            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+        }
+
+        // Función para adjuntar event listeners a los botones "Agregar al Carrito"
+        function attachAddToCartListeners() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                // Remover listeners existentes para evitar duplicados
+                button.removeEventListener('click', handleAddToCartClick);
+                // Añadir nuevo listener
+                button.addEventListener('click', handleAddToCartClick);
+            });
+        }
+
+        // Handler para el clic en "Agregar al Carrito"
+        function handleAddToCartClick(event) {
+            const productId = parseInt(event.currentTarget.dataset.productId);
+            addToCart(productId);
+        }
+
+        // Función para añadir un producto al carrito
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                if (product.stock <= 0) {
+                    showTemporaryMessage('¡Producto agotado!', 'bg-red-500');
+                    return;
+                }
+
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                product.stock--; // Decrementar stock
+                updateCartUI();
+                renderProducts(); // Re-renderizar para actualizar el stock visible
+                renderOffers(); // Re-renderizar para actualizar el stock visible en ofertas
+                showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
+            }
+        }
+
+        // Función para eliminar un producto del carrito
+        function removeFromCart(productId) {
+            const productInCart = cart.find(item => item.id === productId);
+            if (productInCart) {
+                const originalProduct = products.find(p => p.id === productId);
+                if (originalProduct) {
+                    originalProduct.stock += productInCart.quantity; // Devolver stock
+                }
+                cart = cart.filter(item => item.id !== productId);
+                updateCartUI();
+                renderProducts(); // Re-renderizar para actualizar el stock visible
+                renderOffers(); // Re-renderizar para actualizar el stock visible en ofertas
+            }
+        }
+
+        // Función para actualizar la interfaz del carrito
+        function updateCartUI() {
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartItemsList.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cart.forEach(item => {
+                    const listItem = document.createElement('div');
+                    listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
+                    listItem.innerHTML = `
+                        <div class="flex items-center">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                            <div>
+                                <h4 class="font-montserrat font-semibold">${item.name}</h4>
+                                <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsList.appendChild(listItem);
+                    total += item.price * item.quantity;
+                });
+            }
+
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+
+            // Añadir event listeners a los botones "Eliminar" del carrito
+            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const productId = parseInt(event.currentTarget.dataset.productId);
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        // Función para mostrar un mensaje temporal (ej. "Producto agregado")
+        function showTemporaryMessage(message, bgColorClass) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6 py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform translate-y-4`;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+
+            // Animar entrada
+            setTimeout(() => {
+                messageDiv.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+
+            // Animar salida y remover
+            setTimeout(() => {
+                messageDiv.classList.remove('opacity-100', 'translate-y-0');
+                messageDiv.classList.add('opacity-0', 'translate-y-4');
+                messageDiv.addEventListener('transitionend', () => messageDiv.remove());
+            }, 3000);
+        }
+
+
+        // Abrir/Cerrar Carrito Modal
+        cartIcon.addEventListener('click', () => {
+            cartModalOverlay.classList.add('active');
+        });
+
+        closeCartModalBtn.addEventListener('click', () => {
+            cartModalOverlay.classList.remove('active');
+        });
+
+        // Cerrar modal al hacer clic fuera
+        cartModalOverlay.addEventListener('click', (event) => {
+            if (event.target === cartModalOverlay) {
+                cartModalOverlay.classList.remove('active');
+            }
+        });
+
+        // Abrir/Cerrar WhatsApp Modal
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
+                return;
+            }
+            cartModalOverlay.classList.remove('active'); // Cerrar carrito
+            whatsappModalOverlay.classList.add('active'); // Abrir WhatsApp modal
+        });
+
+        closeWhatsappModalBtn.addEventListener('click', () => {
+            whatsappModalOverlay.classList.remove('active');
+        });
+
+        // Cerrar modal al hacer clic fuera
+        whatsappModalOverlay.addEventListener('click', (event) => {
+            if (event.target === whatsappModalOverlay) {
+                whatsappModalOverlay.classList.remove('active');
+            }
+        });
+
+        // Generar enlace de WhatsApp con el pedido
+        sendWhatsappBtn.addEventListener('click', () => {
+            let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
+            cart.forEach(item => {
+                orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}\n`;
+            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
+            orderDetails += "Por favor, contáctenme para concretar la compra.";
+
+            // Número de WhatsApp Business (ejemplo, reemplaza con el real)
+            const whatsappNumber = "5215512345678"; // Formato: Código de país + número sin espacios ni símbolos
+
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
+
+            window.open(whatsappLink, '_blank'); // Abrir WhatsApp en una nueva pestaña
+            cart = []; // Vaciar el carrito después de enviar el pedido
+            updateCartUI();
+            whatsappModalOverlay.classList.remove('active'); // Cerrar modal de WhatsApp
+            showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
+        });
+
+        // Funcionalidad de la barra de búsqueda
+        searchToggle.addEventListener('click', () => {
+            searchInput.classList.toggle('hidden');
+            if (!searchInput.classList.contains('hidden')) {
+                searchInput.focus();
+            }
+        });
+
+        // Funcionalidad del botón de cotizar reparación
+        document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
+            event.preventDefault(); // Evita que el enlace salte a otra sección si tiene '#'
+            // Puedes pre-llenar un mensaje específico para cotización
+            const whatsappNumber = "5215512345678";
+            const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación de laptop. ¿Podrían darme más información?";
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+            window.open(whatsappLink, '_blank');
+        });
+
+        // Funcionalidad para el menú móvil
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
+
+        // Abrir/Cerrar Modal de Diagnóstico
+        aiDiagnosisBtn.addEventListener('click', () => {
+            diagnosisModalOverlay.classList.add('active');
+            problemDescriptionTextarea.value = ''; // Limpiar textarea al abrir
+            diagnosisResultDiv.classList.add('hidden'); // Ocultar resultado anterior
+            diagnosisError.classList.add('hidden'); // Ocultar errores anteriores
+        });
+
+        closeDiagnosisModalBtn.addEventListener('click', () => {
+            diagnosisModalOverlay.classList.remove('active');
+        });
+
+        diagnosisModalOverlay.addEventListener('click', (event) => {
+            if (event.target === diagnosisModalOverlay) {
+                diagnosisModalOverlay.classList.remove('active');
+            }
+        });
+
+        // Obtener Diagnóstico del LLM
+        getDiagnosisBtn.addEventListener('click', async () => {
+            const problemDescription = problemDescriptionTextarea.value.trim();
+            if (!problemDescription) {
+                showTemporaryMessage('Por favor, describe el problema de tu laptop.', 'bg-red-500');
+                return;
+            }
+
+            diagnosisResultDiv.classList.add('hidden');
+            diagnosisError.classList.add('hidden');
+            diagnosisLoader.classList.remove('hidden'); // Mostrar loader
+
+            try {
+                let chatHistory = [];
+                const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil de entender. Descripción del problema: ${problemDescription}`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // La clave API será proporcionada por el entorno de Canvas
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    diagnosisTextDiv.innerHTML = text.replace(/\n/g, '<br>'); // Formatear saltos de línea
+                    diagnosisResultDiv.classList.remove('hidden');
+                } else {
+                    diagnosisError.classList.remove('hidden');
+                    console.error('Estructura de respuesta inesperada del LLM:', result);
+                }
+            } catch (error) {
+                diagnosisError.classList.remove('hidden');
+                console.error('Error al llamar a la API de Gemini:', error);
+            } finally {
+                diagnosisLoader.classList.add('hidden'); // Ocultar loader
+            }
+        });
+
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderOffers(); // Renderizar ofertas primero
+            renderProducts(); // Luego renderizar productos (excluyendo los de oferta)
+            updateCartUI();
+        });
+    </script>
+</body>
+</html>
