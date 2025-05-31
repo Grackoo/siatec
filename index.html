@@ -680,7 +680,7 @@
             orderDetails += "Por favor, contáctenme para concretar la compra.";
 
             // Número de WhatsApp Business (ejemplo, reemplaza con el real)
-            const whatsappNumber = "527711960057"; // Formato: Código de país + número sin espacios ni símbolos
+            const whatsappNumber = "527713951347"; // Formato: Código de país + número sin espacios ni símbolos
 
             const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
 
@@ -703,7 +703,7 @@
         document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
             event.preventDefault(); // Evita que el enlace salte a otra sección si tiene '#'
             // Puedes pre-llenar un mensaje específico para cotización
-            const whatsappNumber = "527711960057";
+            const whatsappNumber = "527713951347";
             const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación de laptop. ¿Podrían darme más información?";
             const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
             window.open(whatsappLink, '_blank');
