@@ -135,6 +135,24 @@
             font-weight: bold;
             z-index: 10;
         }
+                /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
+        .product-card {
+            /* Asegura que el contenido (la imagen con zoom) no se desborde del card */
+            overflow: hidden; 
+        }
+
+        .product-card img {
+            /* Transición suave para el efecto de zoom */
+            transition: transform 0.3s ease-in-out; 
+        }
+
+        .product-card img:hover {
+            /* Escala la imagen al 110% (puedes ajustar el valor) */
+            transform: scale(1.1); 
+        }
+        /* --- FIN de NUEVO CSS --- */
+
+
     </style>
 </head>
 <body>
