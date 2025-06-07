@@ -477,14 +477,15 @@
             {
                 id: 10,
                 name: 'Dell Latitude 7420 Touch',
-                price: 5500.00,
+                OriginalPrice: 14600.00, // Precio original
+                price: 11680.00, // Precio con descuento
                 description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
-                stock: 10,
-                isOnOffer: false
+                stock: 5,
+                isOnOffer: true,
+                discountPercentage: '20%'
             },
         ];
-
         // Referencias a elementos del DOM
         const productGrid = document.getElementById('product-grid');
         const offersGrid = document.getElementById('offers-grid'); // Nuevo: para la sección de ofertas
