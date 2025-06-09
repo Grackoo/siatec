@@ -703,15 +703,14 @@
 
             const offerProducts = products.filter(product => product.isOnOffer);
 
-            // Render offer products
-            if (offerProducts.length > 0) {
-                offerProducts.forEach(product => {
-                    const productCard = createProductCard(product);
-                    offersGrid.appendChild(productCard);
-                });
-            } else {
-                offersGrid.innerHTML = '<p class="text-gray-500 text-center col-span-full">No hay ofertas disponibles en este momento.</p>';
-            }
+            // Función para renderizar los productos en la sección principal
+        function renderProducts() {
+            productGrid.innerHTML = '';
+            products.filter(p => !p.isOnOffer).forEach(product => { // Mostrar solo los que NO están en oferta aquí
+                productGrid.appendChild(createProductCard(product));
+            });
+            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+        }
 
             // Render all products (or filtered products for the main section)
             if (filteredProducts.length > 0) {
