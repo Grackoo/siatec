@@ -913,6 +913,36 @@
             renderProducts(); // Luego renderizar productos (excluyendo los de oferta)
             updateCartUI();
         });
+
+        // Referencia al botón flotante del carrito y contador flotante
+    const floatingCartBtn = document.getElementById('floating-cart-btn');
+    const cartCountFloating = document.getElementById('cart-count-floating');
+
+    // Sincroniza el contador flotante con el contador principal
+    function updateFloatingCartCount() {
+        cartCountFloating.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    // Abre el modal del carrito al hacer clic en el botón flotante
+    floatingCartBtn.addEventListener('click', () => {
+        cartModalOverlay.classList.add('active');
+    });
+
+    // Actualiza ambos contadores cuando cambie el carrito
+    function updateCartUIWithFloating() {
+        updateCartUI();
+        updateFloatingCartCount();
+    }
+
+    // Reemplaza updateCartUI por updateCartUIWithFloating en los lugares necesarios
+    // Sobrescribe la función updateCartUI para mantener compatibilidad
+    const originalUpdateCartUI = updateCartUI;
+    updateCartUI = updateCartUIWithFloating;
+
+    // Inicializa el contador flotante al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        updateFloatingCartCount();
+    });
     </script>
 </body>
 </html>
