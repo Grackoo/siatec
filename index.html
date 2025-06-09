@@ -518,27 +518,7 @@
         const diagnosisTextDiv = document.getElementById('diagnosis-text');
         const diagnosisLoader = document.getElementById('diagnosis-loader');
         const diagnosisError = document.getElementById('diagnosis-error');
-// INICIO DEL CÓDIGO JS QUE DEBES PEGAR
-        const floatingCartIcon = document.getElementById('floating-cart-icon');
-        const floatingCartCount = document.getElementById('floating-cart-count');
 
-        // Function to update cart count for both header and floating icon
-        function updateCartCount() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = count;
-            floatingCartCount.textContent = count; // Update floating icon count
-            if (count > 0) {
-                emptyCartMessage.classList.add('hidden');
-            } else {
-                emptyCartMessage.classList.remove('hidden');
-            }
-        }
-
-        // Event listener for the floating cart icon
-        floatingCartIcon.addEventListener('click', () => {
-            cartModalOverlay.classList.add('active');
-            renderCartItems();
-        });
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
@@ -872,17 +852,5 @@
             updateCartUI();
         });
     </script>
-      <div class="fixed bottom-24 right-6 z-50">
-        <button id="floating-cart-icon" class="relative bg-accent-blue text-white rounded-full h-14 w-14 flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300 focus:outline-none">
-            <i class="fas fa-shopping-cart text-2xl"></i>
-            <span id="floating-cart-count" class="absolute -top-1 -right-1 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-        </button>
-    </div>
-
-    <div class="fixed bottom-6 right-6 z-50">
-        <a href="https://wa.me/527713951347" target="_blank" class="bg-green-500 text-white rounded-full h-14 w-14 flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300 focus:outline-none">
-            <i class="fab fa-whatsapp text-3xl"></i>
-        </a>
-    </div>
 </body>
 </html>
