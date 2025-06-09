@@ -135,7 +135,7 @@
             font-weight: bold;
             z-index: 10;
         }
-                /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
+        /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
         .product-card {
             /* Asegura que el contenido (la imagen con zoom) no se desborde del card */
             overflow: hidden; 
@@ -152,6 +152,61 @@
         }
         /* --- FIN de NUEVO CSS --- */
 
+        /* Floating Cart and WhatsApp Icons */
+        .floating-cart-icon, .floating-whatsapp-icon {
+            position: fixed;
+            right: 20px; /* Adjust as needed */
+            width: 60px; /* Tamaño del icono */
+            height: 60px; /* Tamaño del icono */
+            background-color: #00BFFF; /* Color del carrito */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%; /* Icono circular */
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.4);
+            font-size: 28px; /* Tamaño del icono */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999; /* Asegura que esté por encima de otros elementos */
+        }
+
+        .floating-cart-icon {
+            bottom: 90px; /* Posición por encima del WhatsApp */
+            background-color: #00BFFF; /* Color del carrito */
+        }
+
+        .floating-whatsapp-icon {
+            bottom: 20px; /* Posición en la parte inferior derecha */
+            background-color: #25D366; /* Color de WhatsApp */
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        }
+
+        .floating-cart-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 191, 255, 0.6);
+        }
+
+        .floating-whatsapp-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+        }
+
+        .floating-icon-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #FF4500; /* Color de la notificación */
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
     </style>
 </head>
@@ -378,7 +433,15 @@
             &times;
         </button>
         <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[80vh] mx-auto object-contain">
-         </div>
+           </div>
+    </div>
+
+    <div id="floating-cart-icon" class="floating-cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="floating-cart-count" class="floating-icon-badge">0</span>
+    </div>
+    <div id="floating-whatsapp-icon" class="floating-whatsapp-icon">
+        <i class="fab fa-whatsapp"></i>
     </div>
 
     <script>
@@ -422,10 +485,10 @@
             },
             {
                 id: 11,
-                name: 'Del Latitude 7420 Touch',
+                name: 'Dell Latitude 7420 Touch',
                 originalPrice: 13625, // Precio original
                 price: 10900.00,
-                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
                 stock: 7,
                 isOnOffer: true,
@@ -435,7 +498,7 @@
                 id: 4,
                 name: 'Lenovo ThinkPad P15s G1',
                 price: 18500.00,
-                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11 .',
+                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11 .',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg',
                 stock: 4,
                 isOnOffer: false
@@ -444,7 +507,7 @@
                 id: 5,
                 name: 'Dell Latitude 7330 Touch 2 en 1',
                 price: 11000.00,
-                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: .',
+                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: .',
                 image: 'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg' ,
                 stock: 6,
                 isOnOffer: false
@@ -462,7 +525,7 @@
                 id: 7,
                 name: 'Dell Latitude 5420 ',
                 price: 7200.00,
-                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.', 
+                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.', 
                 image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
                 stock: 8,
                 isOnOffer: false
@@ -514,247 +577,212 @@
         const closeDiagnosisModalBtn = document.getElementById('close-diagnosis-modal');
         const problemDescriptionTextarea = document.getElementById('problem-description');
         const getDiagnosisBtn = document.getElementById('get-diagnosis-btn');
-        const diagnosisResultDiv = document.getElementById('diagnosis-result');
-        const diagnosisTextDiv = document.getElementById('diagnosis-text');
+        const diagnosisResultDiv = document.getElementById('diagnosis-result'); // Renamed for clarity
+        const diagnosisTextDiv = document.getElementById('diagnosis-text');     // Renamed for clarity
         const diagnosisLoader = document.getElementById('diagnosis-loader');
         const diagnosisError = document.getElementById('diagnosis-error');
 
+        // References for floating icons
+        const floatingCartIcon = document.getElementById('floating-cart-icon');
+        const floatingCartCount = document.getElementById('floating-cart-count');
+        const floatingWhatsappIcon = document.getElementById('floating-whatsapp-icon');
 
-        // Función para renderizar un producto individual (usado por ambas secciones)
-        function createProductCard(product) {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative'; // Añadido 'relative' para el badge
-
-            let priceHtml = `<span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>`;
-            let offerBadge = '';
-
-            if (product.isOnOffer) {
-                priceHtml = `
-                    <span class="original-price mr-2">$${product.originalPrice.toFixed(2)}</span>
-                    <span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>
-                `;
-                offerBadge = `<span class="offer-badge">¡${product.discountPercentage} OFF!</span>`;
+        // Function to update cart count in both header and floating icon
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            floatingCartCount.textContent = totalItems;
+            if (totalItems > 0) {
+                cartCount.classList.remove('hidden');
+                floatingCartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+                floatingCartCount.classList.add('hidden');
             }
-
-            const stockText = product.stock > 0 ? `Stock: ${product.stock}` : 'Agotado';
-            const stockColor = product.stock > 0 ? 'text-gray-500' : 'text-red-500 font-semibold';
-            const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
-            const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
-
-
-            productCard.innerHTML = `
-                ${offerBadge}
-                <img src="${product.image}" alt="${product.name}" class="w-full max-h-48 object-contain mb-4 rounded-lg">
-                <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
-                <p class="text-sm font-open-sans text-gray-600 mb-2 flex-grow">${product.description}</p>
-                <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
-                <div class="flex justify-between items-center mt-auto">
-                    <div>${priceHtml}</div>
-                    <button data-product-id="${product.id}" class="add-to-cart-btn bg-accent-blue text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}" ${product.stock === 0 ? 'disabled' : ''}>
-                        ${buttonText}
-                    </button>
-                </div>
-            `;
-            return productCard;
         }
 
-        // Función para renderizar los productos en la sección principal
-        function renderProducts() {
-            productGrid.innerHTML = '';
-            products.filter(p => !p.isOnOffer).forEach(product => { // Mostrar solo los que NO están en oferta aquí
-                productGrid.appendChild(createProductCard(product));
-            });
-            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+        // Function to open the cart modal
+        function openCartModal() {
+            cartModalOverlay.classList.add('active');
+            renderCartItems();
         }
 
-        // Función para renderizar los productos en oferta
-        function renderOffers() {
-            offersGrid.innerHTML = '';
-            products.filter(p => p.isOnOffer).forEach(product => {
-                offersGrid.appendChild(createProductCard(product));
-            });
-            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+        // Function to close the cart modal
+        function closeCartModal() {
+            cartModalOverlay.classList.remove('active');
         }
 
-        // Función para adjuntar event listeners a los botones "Agregar al Carrito"
-        function attachAddToCartListeners() {
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                // Remover listeners existentes para evitar duplicados
-                button.removeEventListener('click', handleAddToCartClick);
-                // Añadir nuevo listener
-                button.addEventListener('click', handleAddToCartClick);
-            });
+        // Function to open the WhatsApp modal
+        function openWhatsappModal() {
+            whatsappModalOverlay.classList.add('active');
         }
 
-        // Handler para el clic en "Agregar al Carrito"
-        function handleAddToCartClick(event) {
-            const productId = parseInt(event.currentTarget.dataset.productId);
-            addToCart(productId);
+        // Function to close the WhatsApp modal
+        function closeWhatsappModal() {
+            whatsappModalOverlay.classList.remove('active');
         }
 
-        // Función para añadir un producto al carrito
+        // Function to add a product to the cart
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
-            if (product) {
-                if (product.stock <= 0) {
-                    showTemporaryMessage('¡Producto agotado!', 'bg-red-500');
-                    return;
-                }
-
-                const existingItem = cart.find(item => item.id === productId);
-                if (existingItem) {
-                    existingItem.quantity++;
+            if (product && product.stock > 0) {
+                const cartItem = cart.find(item => item.id === productId);
+                if (cartItem) {
+                    cartItem.quantity++;
                 } else {
                     cart.push({ ...product, quantity: 1 });
                 }
-                product.stock--; // Decrementar stock
-                updateCartUI();
-                renderProducts(); // Re-renderizar para actualizar el stock visible
-                renderOffers(); // Re-renderizar para actualizar el stock visible en ofertas
-                showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
+                product.stock--; // Decrease stock
+                updateCartCount();
+                renderCartItems();
+                alert(`"${product.name}" ha sido añadido al carrito.`);
+            } else {
+                alert('Lo sentimos, este producto está agotado.');
             }
         }
 
-        // Función para eliminar un producto del carrito
+        // Function to remove a product from the cart
         function removeFromCart(productId) {
-            const productInCart = cart.find(item => item.id === productId);
-            if (productInCart) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                const productInCart = cart[itemIndex];
                 const originalProduct = products.find(p => p.id === productId);
-                if (originalProduct) {
-                    originalProduct.stock += productInCart.quantity; // Devolver stock
+                
+                if (productInCart.quantity > 1) {
+                    productInCart.quantity--;
+                    originalProduct.stock++; // Increase stock back
+                } else {
+                    cart.splice(itemIndex, 1);
+                    originalProduct.stock += 1; // Return stock if removed completely
                 }
-                cart = cart.filter(item => item.id !== productId);
-                updateCartUI();
-                renderProducts(); // Re-renderizar para actualizar el stock visible
-                renderOffers(); // Re-renderizar para actualizar el stock visible en ofertas
+                updateCartCount();
+                renderCartItems();
             }
         }
 
-        // Función para actualizar la interfaz del carrito
-        function updateCartUI() {
-            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartItemsList.innerHTML = '';
-            let total = 0;
-
+        // Function to render cart items in the modal
+        function renderCartItems() {
+            cartItemsList.innerHTML = ''; // Clear previous items
             if (cart.length === 0) {
                 emptyCartMessage.classList.remove('hidden');
             } else {
                 emptyCartMessage.classList.add('hidden');
+                let total = 0;
                 cart.forEach(item => {
-                    const listItem = document.createElement('div');
-                    listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
-                    listItem.innerHTML = `
-                        <div class="flex items-center">
-                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                    const itemTotal = item.quantity * item.price;
+                    total += itemTotal;
+
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'last:border-b-0');
+                    itemElement.innerHTML = `
+                        <div class="flex items-center space-x-4">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
                             <div>
                                 <h4 class="font-montserrat font-semibold">${item.name}</h4>
-                                <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                                <p class="text-gray-600">Cantidad: ${item.quantity}</p>
+                                <p class="text-accent-blue font-bold">$${item.price.toLocaleString('es-MX')}</p>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
-                            <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
+                        <button class="text-red-500 hover:text-red-700 text-2xl" onclick="removeFromCart(${item.id})">&times;</button>
                     `;
-                    cartItemsList.appendChild(listItem);
-                    total += item.price * item.quantity;
+                    cartItemsList.appendChild(itemElement);
                 });
+                cartTotal.textContent = `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             }
+        }
 
-            cartTotal.textContent = `$${total.toFixed(2)}`;
+        // Function to render products in the grid
+        function renderProducts(filter = 'Todas') {
+            productGrid.innerHTML = '';
+            offersGrid.innerHTML = ''; // Clear offers grid as well
 
-            // Añadir event listeners a los botones "Eliminar" del carrito
-            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const productId = parseInt(event.currentTarget.dataset.productId);
-                    removeFromCart(productId);
-                });
+            const filteredProducts = products.filter(product => {
+                if (filter === 'Todas') return true;
+                return product.name.toLowerCase().includes(filter.toLowerCase());
             });
+
+            const offerProducts = products.filter(product => product.isOnOffer);
+
+            // Render offer products
+            if (offerProducts.length > 0) {
+                offerProducts.forEach(product => {
+                    const productCard = createProductCard(product);
+                    offersGrid.appendChild(productCard);
+                });
+            } else {
+                offersGrid.innerHTML = '<p class="text-gray-500 text-center col-span-full">No hay ofertas disponibles en este momento.</p>';
+            }
+
+            // Render all products (or filtered products for the main section)
+            if (filteredProducts.length > 0) {
+                filteredProducts.forEach(product => {
+                    const productCard = createProductCard(product);
+                    productGrid.appendChild(productCard);
+                });
+            } else {
+                productGrid.innerHTML = '<p class="text-gray-500 text-center col-span-full">No se encontraron productos para esta categoría.</p>';
+            }
         }
 
-        // Función para mostrar un mensaje temporal (ej. "Producto agregado")
-        function showTemporaryMessage(message, bgColorClass) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `fixed bottom-8 left-1/2 -translate-x-1/2 ${bgColorClass} text-white px-6 py-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-out opacity-0 transform translate-y-4`;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
+        // Helper function to create a product card HTML element
+        function createProductCard(product) {
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card', 'bg-white', 'p-6', 'rounded-2xl', 'shadow-lg', 'text-center', 'relative', 'overflow-hidden', 'transition-transform', 'duration-300');
+            
+            let priceDisplay = `<p class="text-2xl font-montserrat font-bold text-accent-blue mb-4">$${product.price.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>`;
+            let offerBadge = '';
 
-            // Animar entrada
-            setTimeout(() => {
-                messageDiv.classList.add('opacity-100', 'translate-y-0');
-            }, 10);
+            if (product.isOnOffer) {
+                priceDisplay = `
+                    <p class="original-price text-gray-500 text-base mb-1">$${product.originalPrice.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                    <p class="text-2xl font-montserrat font-bold text-red-600 mb-4">$${product.price.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                `;
+                offerBadge = `<span class="offer-badge">¡${product.discountPercentage} DCTO!</span>`;
+            }
 
-            // Animar salida y remover
-            setTimeout(() => {
-                messageDiv.classList.remove('opacity-100', 'translate-y-0');
-                messageDiv.classList.add('opacity-0', 'translate-y-4');
-                messageDiv.addEventListener('transitionend', () => messageDiv.remove());
-            }, 3000);
+            productCard.innerHTML = `
+                ${offerBadge}
+                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-contain mb-4 rounded-lg cursor-pointer" onclick="openImageModal('${product.image}')">
+                <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
+                <p class="text-gray-700 text-sm mb-4 leading-relaxed">${product.description}</p>
+                ${priceDisplay}
+                <button class="bg-accent-green text-text-dark font-montserrat font-semibold py-2 px-6 rounded-full hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl" onclick="addToCart(${product.id})">
+                    Agregar al carrito
+                </button>
+                <p class="text-sm text-gray-500 mt-2">Stock: ${product.stock}</p>
+            `;
+            return productCard;
         }
 
+        // Event Listeners
+        cartIcon.addEventListener('click', openCartModal);
+        closeCartModalBtn.addEventListener('click', closeCartModal);
+        floatingCartIcon.addEventListener('click', openCartModal); // Added for floating cart icon
 
-        // Abrir/Cerrar Carrito Modal
-        cartIcon.addEventListener('click', () => {
-            cartModalOverlay.classList.add('active');
-        });
+        checkoutBtn.addEventListener('click', openWhatsappModal);
+        closeWhatsappModalBtn.addEventListener('click', closeWhatsappModal);
+        floatingWhatsappIcon.addEventListener('click', openWhatsappModal); // Added for floating WhatsApp icon
 
-        closeCartModalBtn.addEventListener('click', () => {
-            cartModalOverlay.classList.remove('active');
-        });
-
-        // Cerrar modal al hacer clic fuera
-        cartModalOverlay.addEventListener('click', (event) => {
-            if (event.target === cartModalOverlay) {
-                cartModalOverlay.classList.remove('active');
-            }
-        });
-
-        // Abrir/Cerrar WhatsApp Modal
-        checkoutBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
-                return;
-            }
-            cartModalOverlay.classList.remove('active'); // Cerrar carrito
-            whatsappModalOverlay.classList.add('active'); // Abrir WhatsApp modal
-        });
-
-        closeWhatsappModalBtn.addEventListener('click', () => {
-            whatsappModalOverlay.classList.remove('active');
-        });
-
-        // Cerrar modal al hacer clic fuera
-        whatsappModalOverlay.addEventListener('click', (event) => {
-            if (event.target === whatsappModalOverlay) {
-                whatsappModalOverlay.classList.remove('active');
-            }
-        });
-
-        // Generar enlace de WhatsApp con el pedido
         sendWhatsappBtn.addEventListener('click', () => {
-            let orderDetails = "¡Hola SIA TEC! Me gustaría hacer el siguiente pedido:\n\n";
+            let message = "¡Hola! Me gustaría hacer un pedido de SIA TEC.\n\nMi carrito:\n";
+            let total = 0;
             cart.forEach(item => {
-                orderDetails += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}\n`;
+                message += `- ${item.name} x ${item.quantity} = $${(item.price * item.quantity).toLocaleString('es-MX')}\n`;
+                total += item.price * item.quantity;
             });
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
-            orderDetails += "Por favor, contáctenme para concretar la compra.";
+            message += `\nTotal a pagar: $${total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-            // Número de WhatsApp Business (ejemplo, reemplaza con el real)
-            const whatsappNumber = "527713951347"; // Formato: Código de país + número sin espacios ni símbolos
-
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
-
-            window.open(whatsappLink, '_blank'); // Abrir WhatsApp en una nueva pestaña
-            cart = []; // Vaciar el carrito después de enviar el pedido
-            updateCartUI();
-            whatsappModalOverlay.classList.remove('active'); // Cerrar modal de WhatsApp
-            showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
+            // Replace with your WhatsApp Business number
+            const whatsappNumber = "+527713951347"; 
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappURL, '_blank');
+            closeWhatsappModal();
+            cart = []; // Clear cart after sending order
+            updateCartCount();
+            renderCartItems();
         });
 
-        // Funcionalidad de la barra de búsqueda
         searchToggle.addEventListener('click', () => {
             searchInput.classList.toggle('hidden');
             if (!searchInput.classList.contains('hidden')) {
@@ -762,94 +790,95 @@
             }
         });
 
-        // Funcionalidad del botón de cotizar reparación
-        document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
-            event.preventDefault(); // Evita que el enlace salte a otra sección si tiene '#'
-            // Puedes pre-llenar un mensaje específico para cotización
-            const whatsappNumber = "527713951347";
-            const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación de laptop. ¿Podrían darme más información?";
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
-            window.open(whatsappLink, '_blank');
-        });
-
-        // Funcionalidad para el menú móvil
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
-        // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
+        // Event listener for category buttons
+        document.querySelectorAll('#products button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const category = event.target.textContent;
+                renderProducts(category);
+            });
+        });
 
-        // Abrir/Cerrar Modal de Diagnóstico
+        // AI Diagnosis functionality
         aiDiagnosisBtn.addEventListener('click', () => {
             diagnosisModalOverlay.classList.add('active');
-            problemDescriptionTextarea.value = ''; // Limpiar textarea al abrir
-            diagnosisResultDiv.classList.add('hidden'); // Ocultar resultado anterior
-            diagnosisError.classList.add('hidden'); // Ocultar errores anteriores
+            diagnosisResultDiv.classList.add('hidden'); // Hide previous results
+            diagnosisError.classList.add('hidden'); // Hide previous errors
+            problemDescriptionTextarea.value = ''; // Clear textarea
         });
 
         closeDiagnosisModalBtn.addEventListener('click', () => {
             diagnosisModalOverlay.classList.remove('active');
         });
 
-        diagnosisModalOverlay.addEventListener('click', (event) => {
-            if (event.target === diagnosisModalOverlay) {
-                diagnosisModalOverlay.classList.remove('active');
-            }
-        });
-
-        // Obtener Diagnóstico del LLM
         getDiagnosisBtn.addEventListener('click', async () => {
-            const problemDescription = problemDescriptionTextarea.value.trim();
-            if (!problemDescription) {
-                showTemporaryMessage('Por favor, describe el problema de tu laptop.', 'bg-red-500');
+            const problem = problemDescriptionTextarea.value.trim();
+            if (!problem) {
+                alert('Por favor, describe el problema de tu laptop.');
                 return;
             }
 
+            diagnosisLoader.classList.remove('hidden');
             diagnosisResultDiv.classList.add('hidden');
             diagnosisError.classList.add('hidden');
-            diagnosisLoader.classList.remove('hidden'); // Mostrar loader
+            diagnosisTextDiv.innerHTML = '';
 
             try {
-                let chatHistory = [];
-                const prompt = `Actúa como un técnico experto en reparación de laptops de SIA TEC. El usuario ha descrito un problema con su laptop. Basado en la siguiente descripción, proporciona un diagnóstico preliminar, posibles causas y sugiere los pasos iniciales que el usuario podría intentar, o indica cuándo es necesario un servicio profesional. Sé conciso y profesional, usa un lenguaje claro y fácil de entender. Descripción del problema: ${problemDescription}`;
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-                const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    diagnosisTextDiv.innerHTML = text.replace(/\n/g, '<br>'); // Formatear saltos de línea
-                    diagnosisResultDiv.classList.remove('hidden');
-                } else {
-                    diagnosisError.classList.remove('hidden');
-                    console.error('Estructura de respuesta inesperada del LLM:', result);
-                }
+                // In a real application, you would send this 'problem' to a backend AI service
+                // For this example, we'll simulate an AI response
+                const simulatedDiagnosis = await simulateAIDiagnosis(problem);
+                
+                diagnosisTextDiv.innerHTML = simulatedDiagnosis;
+                diagnosisResultDiv.classList.remove('hidden');
             } catch (error) {
+                console.error('Error al obtener el diagnóstico:', error);
                 diagnosisError.classList.remove('hidden');
-                console.error('Error al llamar a la API de Gemini:', error);
             } finally {
-                diagnosisLoader.classList.add('hidden'); // Ocultar loader
+                diagnosisLoader.classList.add('hidden');
             }
         });
 
+        async function simulateAIDiagnosis(problem) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    let response = "Gracias por describir el problema. Nuestro sistema de IA está analizando la información. ";
+                    if (problem.toLowerCase().includes('no enciende')) {
+                        response += "El problema de que tu laptop no encienda puede deberse a fallas en la batería, cargador, placa madre o botón de encendido. Recomendamos una revisión técnica detallada.";
+                    } else if (problem.toLowerCase().includes('pantalla negra')) {
+                        response += "Una pantalla negra puede indicar un problema con la tarjeta gráfica, la pantalla misma, o un conflicto de software. Intenta conectar un monitor externo para descartar la pantalla.";
+                    } else if (problem.toLowerCase().includes('muy lenta')) {
+                        response += "Si tu laptop está muy lenta, podría ser por falta de RAM, un disco duro casi lleno, muchos programas iniciando con Windows, o virus. Una optimización del sistema y limpieza de software podría ayudar.";
+                    } else if (problem.toLowerCase().includes('calienta mucho')) {
+                        response += "El sobrecalentamiento suele ser causado por ventiladores sucios o pasta térmica seca. Se recomienda una limpieza interna y cambio de pasta térmica para evitar daños mayores.";
+                    } else {
+                        response += "Para un diagnóstico más preciso, te sugerimos agendar una cita con nuestros técnicos. Necesitaremos examinar el equipo directamente para identificar la causa raíz y ofrecerte la mejor solución.";
+                    }
+                    resolve(response);
+                }, 2000); // Simulate network delay
+            });
+        }
 
-        // Inicializar la página
+        // Image Modal functionality
+        const imageModalOverlay = document.getElementById('image-modal-overlay');
+        const closeImageModalBtn = document.getElementById('close-image-modal');
+        const modalImage = document.getElementById('modal-image');
+
+        function openImageModal(imageUrl) {
+            modalImage.src = imageUrl;
+            imageModalOverlay.classList.add('active');
+        }
+
+        closeImageModalBtn.addEventListener('click', () => {
+            imageModalOverlay.classList.remove('active');
+        });
+
+        // Initial render of products and update cart count
         document.addEventListener('DOMContentLoaded', () => {
-            renderOffers(); // Renderizar ofertas primero
-            renderProducts(); // Luego renderizar productos (excluyendo los de oferta)
-            updateCartUI();
+            renderProducts();
+            updateCartCount();
         });
     </script>
 </body>
