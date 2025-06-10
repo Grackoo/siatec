@@ -693,48 +693,54 @@
         }
 
         // Función para actualizar la interfaz del carrito
-        function updateCartUI() {
-            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartItemsList.innerHTML = '';
-            let total = 0;
+    function updateCartUI() {
+    const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-            if (cart.length === 0) {
-                emptyCartMessage.classList.remove('hidden');
-            } else {
-                emptyCartMessage.classList.add('hidden');
-                cart.forEach(item => {
-                    const listItem = document.createElement('div');
-                    listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
-                    listItem.innerHTML = `
-                        <div class="flex items-center">
-                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
-                            <div>
-                                <h4 class="font-montserrat font-semibold">${item.name}</h4>
-                                <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
-                            <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    `;
-                    cartItemsList.appendChild(listItem);
-                    total += item.price * item.quantity;
-                });
-            }
+    // Actualiza el contador del carrito en el encabezado
+    cartCount.textContent = totalItemsInCart;
+    // ¡NUEVO! Actualiza el contador del carrito flotante
+    document.getElementById('cart-count-floating').textContent = totalItemsInCart;
 
-            cartTotal.textContent = `$${total.toFixed(2)}`;
+    cartItemsList.innerHTML = '';
+    let total = 0;
 
-            // Añadir event listeners a los botones "Eliminar" del carrito
-            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const productId = parseInt(event.currentTarget.dataset.productId);
-                    removeFromCart(productId);
-                });
-            });
-        }
+    if (cart.length === 0) {
+        emptyCartMessage.classList.remove('hidden');
+    } else {
+        emptyCartMessage.classList.add('hidden');
+        cart.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
+            listItem.innerHTML = `
+                <div class="flex items-center">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                    <div>
+                        <h4 class="font-montserrat font-semibold">${item.name}</h4>
+                        <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
+                    <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `;
+            cartItemsList.appendChild(listItem);
+            total += item.price * item.quantity;
+        });
+    }
+
+    cartTotal.textContent = `$${total.toFixed(2)}`;
+
+    // Añadir event listeners a los botones "Eliminar" del carrito
+    document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = parseInt(event.currentTarget.dataset.productId);
+            removeFromCart(productId);
+        });
+    });
+}
 
         // Función para mostrar un mensaje temporal (ej. "Producto agregado")
         function showTemporaryMessage(message, bgColorClass) {
