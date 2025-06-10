@@ -135,7 +135,7 @@
             font-weight: bold;
             z-index: 10;
         }
-                /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
+        /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
         .product-card {
             /* Asegura que el contenido (la imagen con zoom) no se desborde del card */
             overflow: hidden; 
@@ -151,24 +151,32 @@
             transform: scale(1.1); 
         }
         /* --- FIN de NUEVO CSS --- */
-         /* Estilos para botones flotantes */
-        .floating-button {
+        
+        /* Estilos para botones flotantes */
+        /* Contenedor de botones flotantes */
+        .floating-buttons-container {
             position: fixed;
-            bottom: 2rem; /* Distancia desde abajo */
-            right: 2rem; /* Distancia desde la derecha */
+            bottom: 1rem; /* Ajustado para un poco más de margen inferior en móvil */
+            right: 1rem; /* Ajustado para un poco más de margen derecho en móvil */
+            display: flex;
+            flex-direction: column-reverse; /* Carrito arriba, WhatsApp abajo en móvil */
+            gap: 1rem; /* Espacio entre los botones */
+            z-index: 999;
+        }
+
+        .floating-button {
             background-color: #00BFFF; /* Color por defecto, se sobrescribe para WhatsApp */
             color: white;
             border-radius: 9999px; /* Completamente redondo */
-            padding: 1rem;
+            padding: 0.8rem; /* Padding ajustado para ser más compacto en móvil */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem; /* Tamaño de ícono ajustado */
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 999; /* Asegura que esté por encima de la mayoría del contenido, pero debajo de los modales */
-            text-decoration: none; /* Para el enlace de WhatsApp */
+            text-decoration: none;
         }
         .floating-button:hover {
             transform: translateY(-5px);
@@ -177,7 +185,6 @@
 
         .floating-button.whatsapp {
             background-color: #25D366; /* Color de WhatsApp */
-            right: 8rem; /* Ajuste para que no se superponga con el carrito */
         }
 
         .floating-button.whatsapp:hover {
@@ -185,14 +192,22 @@
         }
 
         .floating-button .label {
-            font-size: 1rem;
+            font-size: 0.9rem; /* Tamaño de fuente ajustado */
             font-weight: 600;
             margin-left: 0.5rem;
             display: none; /* Oculto por defecto en móviles */
         }
 
-        /* Mostrar texto del botón flotante en pantallas más grandes */
+        /* Mostrar texto del botón flotante en pantallas más grandes y ajustar layout */
         @media (min-width: 768px) {
+            .floating-buttons-container {
+                flex-direction: row; /* En fila en desktop */
+                bottom: 2rem;
+                right: 2rem;
+            }
+            .floating-button {
+                padding: 1rem; /* Padding estándar en desktop */
+            }
             .floating-button .label {
                 display: inline-block;
             }
@@ -200,12 +215,11 @@
                 padding: 1rem 1.5rem; /* Ajuste de padding para el texto */
             }
         }
-
     </style>
 </head>
 <body>
 
-    <header class="bg-white shadow-md py-4 px-6 md:px-12 flex justify-between items-center rounded-b-xl">
+    <header class="bg-white shadow-md py-4 px-4 md:px-12 flex justify-between items-center rounded-b-xl">
         <div class="flex items-center">
             <img src="https://i.ibb.co/YTfqG2rp/LOG.png" alt="SIA TEC Logo" class="h-10 w-10 mr-3 rounded-lg">
             <span class="text-2xl font-montserrat font-bold text-text-dark">SIATEC</span>
@@ -219,9 +233,10 @@
             <a href="#contact" class="text-lg font-open-sans text-text-dark hover:text-accent-blue transition duration-300">Contacto</a>
         </nav>
 
-        <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-4 md:space-x-6">
             <div class="relative">
-                <input type="text" id="search-input" placeholder="Buscar..." class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-48 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm">
+                <!-- Ajuste: input de búsqueda ahora es w-full en móviles cuando está activo -->
+                <input type="text" id="search-input" placeholder="Buscar..." class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-48 md:w-48 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm">
                 <button id="search-toggle" class="text-text-dark hover:text-accent-blue transition duration-300 text-xl focus:outline-none">
                     <i class="fas fa-search"></i>
                 </button>
@@ -368,25 +383,28 @@
         </div>
     </footer>
 
-    <!-- Botón flotante de WhatsApp -->
-    <a href="https://wa.me/527713951347?text=Hola!%20Me%20gustar%C3%ADa%20hablar%20con%20un%20t%C3%A9cnico%20sobre%20una%20reparaci%C3%B3n." 
-       target="_blank" 
-       class="floating-button whatsapp">
-        <i class="fab fa-whatsapp"></i>
-        <span class="label">Hablar con un Técnico</span>
-    </a>
+    <!-- Contenedor de botones flotantes -->
+    <div class="floating-buttons-container">
+        <!-- Botón flotante de WhatsApp -->
+        <a href="https://wa.me/527713951347?text=Hola!%20Me%20gustar%C3%ADa%20hablar%20con%20un%20t%C3%A9cnico%20sobre%20una%20reparaci%C3%B3n." 
+            target="_blank" 
+            class="floating-button whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="label">Hablar con un Técnico</span>
+        </a>
 
-    <!-- Botón flotante de Carrito -->
-    <button id="floating-cart-btn" class="floating-button">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count-floating" class="absolute -top-1 -right-1 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-    </button>
+        <!-- Botón flotante de Carrito -->
+        <button id="floating-cart-btn" class="floating-button">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count-floating" class="absolute -top-1 -right-1 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+    </div>
     
     <div id="cart-modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-3xl font-montserrat font-bold">Tu Carrito</h3>
-                <button id="close-cart-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none">&times;</button>
+                <button id="close-cart-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
             <div id="cart-items-list" class="space-y-4 max-h-80 overflow-y-auto pr-2">
                 <p class="text-gray-500 text-center" id="empty-cart-message">Tu carrito está vacío.</p>
@@ -402,7 +420,7 @@
     <div id="whatsapp-modal-overlay" class="modal-overlay">
         <div class="modal-content text-center">
             <div class="flex justify-end">
-                <button id="close-whatsapp-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none">&times;</button>
+                <button id="close-whatsapp-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
             <i class="fab fa-whatsapp text-6xl text-green-500 mb-6"></i>
             <h3 class="text-3xl font-montserrat font-bold mb-4">¡Casi Listo!</h3>
@@ -418,7 +436,7 @@
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-3xl font-montserrat font-bold">Diagnóstico Inteligente ✨</h3>
-                <button id="close-diagnosis-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none">&times;</button>
+                <button id="close-diagnosis-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
             </div>
             <p class="text-md font-open-sans mb-4">Describe el problema de tu laptop. Nuestro asistente de IA te dará un diagnóstico preliminar.</p>
             <textarea id="problem-description" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-32 mb-6" placeholder="Ejemplo: Mi laptop no enciende, solo parpadea una luz..."></textarea>
@@ -436,11 +454,11 @@
 
     <div id="image-modal-overlay" class="modal-overlay">
     <div class="modal-content relative p-4 bg-white rounded-lg shadow-xl max-w-2xl lg:max-w-4xl text-center">
-        <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90">
+        <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
             &times;
         </button>
         <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[80vh] mx-auto object-contain">
-         </div>
+           </div>
     </div>
 
     <script>
@@ -520,7 +538,7 @@
                 stock: 8,
                 isOnOffer: false
             },
-             {
+            {
                 id: 7,
                 name: 'Dell Latitude 5420 ',
                 price: 7200.00,
@@ -581,6 +599,11 @@
         const diagnosisLoader = document.getElementById('diagnosis-loader');
         const diagnosisError = document.getElementById('diagnosis-error');
 
+        // Referencias para el modal de imagen
+        const imageModalOverlay = document.getElementById('image-modal-overlay');
+        const closeModalImageBtn = document.getElementById('close-image-modal');
+        const modalImage = document.getElementById('modal-image');
+
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
@@ -606,7 +629,7 @@
 
             productCard.innerHTML = `
                 ${offerBadge}
-                <img src="${product.image}" alt="${product.name}" class="w-full max-h-48 object-contain mb-4 rounded-lg">
+                <img src="${product.image}" alt="${product.name}" class="w-full max-h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}">
                 <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
                 <p class="text-sm font-open-sans text-gray-600 mb-2 flex-grow">${product.description}</p>
                 <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
@@ -627,6 +650,7 @@
                 productGrid.appendChild(createProductCard(product));
             });
             attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+            attachImageClickListeners(); // Adjuntar listeners para el modal de imagen
         }
 
         // Función para renderizar los productos en oferta
@@ -636,6 +660,7 @@
                 offersGrid.appendChild(createProductCard(product));
             });
             attachAddToCartListeners(); // Adjuntar listeners después de renderizar
+            attachImageClickListeners(); // Adjuntar listeners para el modal de imagen
         }
 
         // Función para adjuntar event listeners a los botones "Agregar al Carrito"
@@ -693,71 +718,53 @@
         }
 
         // Función para actualizar la interfaz del carrito
-    function updateCartUI() {
-    const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
+        function updateCartUI() {
+            const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-    // Actualiza el contador del carrito en el encabezado
-    cartCount.textContent = totalItemsInCart;
-    // ¡NUEVO! Actualiza el contador del carrito flotante
-    document.getElementById('cart-count-floating').textContent = totalItemsInCart;
+            // Actualiza el contador del carrito en el encabezado
+            cartCount.textContent = totalItemsInCart;
+            // Actualiza el contador del carrito flotante
+            document.getElementById('cart-count-floating').textContent = totalItemsInCart;
 
-    cartItemsList.innerHTML = '';
-    let total = 0;
+            cartItemsList.innerHTML = '';
+            let total = 0;
 
-    if (cart.length === 0) {
-        emptyCartMessage.classList.remove('hidden');
-    } else {
-        emptyCartMessage.classList.add('hidden');
-        cart.forEach(item => {
-            const listItem = document.createElement('div');
-            listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
-            listItem.innerHTML = `
-                <div class="flex items-center">
-                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
-                    <div>
-                        <h4 class="font-montserrat font-semibold">${item.name}</h4>
-                        <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
-                    <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            `;
-            cartItemsList.appendChild(listItem);
-            total += item.price * item.quantity;
-        });
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cart.forEach(item => {
+                    const listItem = document.createElement('div');
+                    listItem.className = 'flex justify-between items-center p-3 bg-base-light rounded-lg shadow-sm';
+                    listItem.innerHTML = `
+                        <div class="flex items-center">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                            <div>
+                                <h4 class="font-montserrat font-semibold">${item.name}</h4>
+                                <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-montserrat font-bold text-accent-blue">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button data-product-id="${item.id}" class="remove-from-cart-btn text-red-500 hover:text-red-700 transition duration-300 text-lg">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsList.appendChild(listItem);
+                    total += item.price * item.quantity;
+                });
 
-        // Referencia al botón flotante del carrito
-const floatingCartBtn = document.getElementById('floating-cart-btn');
-
-// Abrir/Cerrar Carrito Modal (para el ícono del encabezado)
-cartIcon.addEventListener('click', () => {
-    cartModalOverlay.classList.add('active');
-});
-
-// ¡NUEVO! Abrir/Cerrar Carrito Modal (para el botón flotante)
-floatingCartBtn.addEventListener('click', () => {
-    cartModalOverlay.classList.add('active');
-});
-
-closeCartModalBtn.addEventListener('click', () => {
-    cartModalOverlay.classList.remove('active');
-});
-    }
-
-    cartTotal.textContent = `$${total.toFixed(2)}`;
-
-    // Añadir event listeners a los botones "Eliminar" del carrito
-    document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const productId = parseInt(event.currentTarget.dataset.productId);
-            removeFromCart(productId);
-        });
-    });
-}
+                // Añadir event listeners a los botones "Eliminar" del carrito
+                document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const productId = parseInt(event.currentTarget.dataset.productId);
+                        removeFromCart(productId);
+                    });
+                });
+            }
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+        }
 
         // Función para mostrar un mensaje temporal (ej. "Producto agregado")
         function showTemporaryMessage(message, bgColorClass) {
@@ -779,9 +786,11 @@ closeCartModalBtn.addEventListener('click', () => {
             }, 3000);
         }
 
-
-        // Abrir/Cerrar Carrito Modal
+        // Abrir/Cerrar Carrito Modal (para el ícono del encabezado y el botón flotante)
         cartIcon.addEventListener('click', () => {
+            cartModalOverlay.classList.add('active');
+        });
+        document.getElementById('floating-cart-btn').addEventListener('click', () => {
             cartModalOverlay.classList.add('active');
         });
 
@@ -842,8 +851,12 @@ closeCartModalBtn.addEventListener('click', () => {
         // Funcionalidad de la barra de búsqueda
         searchToggle.addEventListener('click', () => {
             searchInput.classList.toggle('hidden');
+            // Ajuste para que el input ocupe el ancho completo en móvil cuando es visible
             if (!searchInput.classList.contains('hidden')) {
+                searchInput.classList.add('w-full', 'md:w-48'); // Asegura ancho completo en móvil
                 searchInput.focus();
+            } else {
+                searchInput.classList.remove('w-full', 'md:w-48');
             }
         });
 
@@ -860,6 +873,13 @@ closeCartModalBtn.addEventListener('click', () => {
         // Funcionalidad para el menú móvil
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer clic en un enlace
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
         });
 
         // --- Funcionalidad del Asistente de Diagnóstico Inteligente (Gemini API) ---
@@ -900,7 +920,7 @@ closeCartModalBtn.addEventListener('click', () => {
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiKey = ""; // La clave API será proporcionada por el entorno de Canvas
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -929,6 +949,26 @@ closeCartModalBtn.addEventListener('click', () => {
             }
         });
 
+        // Funcionalidad del modal de imagen (zoom)
+        function attachImageClickListeners() {
+            document.querySelectorAll('.product-card img').forEach(img => {
+                img.addEventListener('click', (event) => {
+                    const fullImageUrl = event.target.dataset.fullImage || event.target.src;
+                    modalImage.src = fullImageUrl;
+                    imageModalOverlay.classList.add('active');
+                });
+            });
+        }
+
+        closeModalImageBtn.addEventListener('click', () => {
+            imageModalOverlay.classList.remove('active');
+        });
+
+        imageModalOverlay.addEventListener('click', (event) => {
+            if (event.target === imageModalOverlay) {
+                imageModalOverlay.classList.remove('active');
+            }
+        });
 
         // Inicializar la página
         document.addEventListener('DOMContentLoaded', () => {
