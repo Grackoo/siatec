@@ -456,12 +456,15 @@
     </div >
 
     <div id="image-modal-overlay" class="modal-overlay">
-    <div class="modal-content relative p-4 bg-white rounded-lg shadow-xl max-w-2xl lg:max-w-4xl text-center">
-        <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
-            &times;
-        </button>
-        <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[80vh] mx-auto object-contain">
-           </div>
+        <div class="modal-content relative p-4 bg-white rounded-lg shadow-xl max-w-2xl lg:max-w-4xl text-center">
+            <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
+                &times;
+            </button>
+            <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[70vh] mx-auto object-contain mb-4">
+            <!-- NUEVO: Contenedor para el nombre y la descripción completa -->
+            <h3 id="modal-product-name" class="text-2xl font-montserrat font-bold mb-2"></h3>
+            <p id="modal-product-description" class="text-md font-open-sans text-gray-700 text-left"></p>
+        </div>
     </div>
 
     <script>
@@ -606,12 +609,14 @@
         const imageModalOverlay = document.getElementById('image-modal-overlay');
         const closeModalImageBtn = document.getElementById('close-image-modal');
         const modalImage = document.getElementById('modal-image');
+        const modalProductName = document.getElementById('modal-product-name'); // NUEVO
+        const modalProductDescription = document.getElementById('modal-product-description'); // NUEVO
 
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
             const productCard = document.createElement('div');
-            // La clase flex-grow en product-card-content asegura que las tarjetas tengan alturas consistentes
+            // La clase flex-grow en product-card-content asegura que las tarjetas tengan alturas consistentemente
             productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative'; // Añadido 'relative' para el badge
 
             let priceHtml = `<span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>`;
@@ -634,7 +639,7 @@
             productCard.innerHTML = `
                 ${offerBadge}
                 <!-- Ajuste: h-32 por defecto en móviles, h-48 en pantallas medianas y superiores -->
-                <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}">
+                <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
                 <!-- Ajuste: Altura fija para la descripción en móviles, overflow-hidden para cortar texto si es muy largo -->
                 <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
                 <p class="text-sm font-open-sans text-gray-600 mb-2 h-20 overflow-hidden">${product.description}</p>
@@ -960,7 +965,20 @@
             document.querySelectorAll('.product-card img').forEach(img => {
                 img.addEventListener('click', (event) => {
                     const fullImageUrl = event.target.dataset.fullImage || event.target.src;
+                    const productId = parseInt(event.target.dataset.productId); // Obtener el ID del producto
+                    const product = products.find(p => p.id === productId); // Encontrar el producto
+
                     modalImage.src = fullImageUrl;
+                    
+                    if (product) {
+                        modalProductName.textContent = product.name; // Mostrar el nombre del producto
+                        // Reemplazar <br> por saltos de línea reales para la descripción
+                        modalProductDescription.innerHTML = product.description.replace(/<br>/g, '<br>'); 
+                    } else {
+                        modalProductName.textContent = '';
+                        modalProductDescription.textContent = '';
+                    }
+
                     imageModalOverlay.classList.add('active');
                 });
             });
