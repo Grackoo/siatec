@@ -453,7 +453,7 @@
             <div id="diagnosis-loader" class="loader hidden"></div>
             <p id="diagnosis-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.</p>
         </div>
-    </div>
+    </div >
 
     <div id="image-modal-overlay" class="modal-overlay">
     <div class="modal-content relative p-4 bg-white rounded-lg shadow-xl max-w-2xl lg:max-w-4xl text-center">
@@ -611,6 +611,7 @@
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
             const productCard = document.createElement('div');
+            // La clase flex-grow en product-card-content asegura que las tarjetas tengan alturas consistentes
             productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative'; // Añadido 'relative' para el badge
 
             let priceHtml = `<span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>`;
@@ -632,9 +633,11 @@
 
             productCard.innerHTML = `
                 ${offerBadge}
-                <img src="${product.image}" alt="${product.name}" class="w-full max-h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}">
+                <!-- Ajuste: h-32 por defecto en móviles, h-48 en pantallas medianas y superiores -->
+                <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}">
+                <!-- Ajuste: Altura fija para la descripción en móviles, overflow-hidden para cortar texto si es muy largo -->
                 <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
-                <p class="text-sm font-open-sans text-gray-600 mb-2 flex-grow">${product.description}</p>
+                <p class="text-sm font-open-sans text-gray-600 mb-2 h-20 overflow-hidden">${product.description}</p>
                 <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
                 <div class="flex justify-between items-center mt-auto">
                     <div>${priceHtml}</div>
@@ -923,7 +926,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiKey = ""; // La clave API será proporcionada por el entorno de Canvas
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
