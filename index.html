@@ -729,6 +729,23 @@
             cartItemsList.appendChild(listItem);
             total += item.price * item.quantity;
         });
+
+        // Referencia al botón flotante del carrito
+const floatingCartBtn = document.getElementById('floating-cart-btn');
+
+// Abrir/Cerrar Carrito Modal (para el ícono del encabezado)
+cartIcon.addEventListener('click', () => {
+    cartModalOverlay.classList.add('active');
+});
+
+// ¡NUEVO! Abrir/Cerrar Carrito Modal (para el botón flotante)
+floatingCartBtn.addEventListener('click', () => {
+    cartModalOverlay.classList.add('active');
+});
+
+closeCartModalBtn.addEventListener('click', () => {
+    cartModalOverlay.classList.remove('active');
+});
     }
 
     cartTotal.textContent = `$${total.toFixed(2)}`;
