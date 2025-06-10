@@ -460,8 +460,21 @@
             <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
                 &times;
             </button>
-            <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[70vh] mx-auto object-contain mb-4">
-            <!-- NUEVO: Contenedor para el nombre y la descripción completa -->
+            
+            <div class="relative mb-4 flex items-center justify-center">
+                <button id="modal-prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <img id="modal-image" src="" alt="Imagen de producto grande" class="max-w-full max-h-[70vh] mx-auto object-contain">
+                <button id="modal-next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div id="modal-image-indicators" class="flex justify-center space-x-2 mt-2 mb-4">
+                <!-- Los indicadores se añadirán dinámicamente aquí -->
+            </div>
+
             <h3 id="modal-product-name" class="text-2xl font-montserrat font-bold mb-2"></h3>
             <p id="modal-product-description" class="text-md font-open-sans text-gray-700 text-left"></p>
         </div>
@@ -470,6 +483,10 @@
     <script>
         // Array para almacenar los productos en el carrito
         let cart = [];
+
+        // Variables globales para la galería de imágenes del modal
+        let currentProductImageUrls = [];
+        let currentImageCarouselIndex = 0;
 
         // Datos de productos de ejemplo con stock y ofertas
         const products = [
@@ -480,6 +497,11 @@
                 price: 28700, // Precio con descuento
                 description: 'Gama Media <br> Procesador: Intel Core Ultra 7 155H <br> Ram: 16 GB DDR5 <br> Almacenamiento: 512  GB SSD NVME <br> Display: 16” Full HD <br> GPU: Intel Arc <br> Sistema Operativo: Windows 11.',
                 image: 'https://p1-ofp.static.pub//medias/26365099349_E16G2_202403011025391713718517478.png',
+                images: [ // Múltiples imágenes para el carrusel
+                    'https://p1-ofp.static.pub//medias/26365099349_E16G2_202403011025391713718517478.png',
+                    'https://placehold.co/800x600/FF5733/FFFFFF?text=Lenovo+E16+G2+Vista+Lateral',
+                    'https://placehold.co/800x600/33FF57/FFFFFF?text=Lenovo+E16+G2+Teclado'
+                ],
                 stock: 5,
                 isOnOffer: true,
                 discountPercentage: '10%'
@@ -491,6 +513,11 @@
                 price: 19500.00, // Precio con descuento
                 description: 'Gama Alta <br> Procesador: Intel Xeon® W-10855M vPro <br> Ram: 16 GB DDR4 <br> Almacenamiento: 1 TB SSD NVME <br> Display: 15.6” FHD <br> GPU: NVIDIA® T2000 de 4GB <br> Sistema Operativo: Windows 11.',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3BuZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
+                images: [
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3BuZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
+                    'https://placehold.co/800x600/3366FF/FFFFFF?text=Lenovo+P1+G3+Ángulo',
+                    'https://placehold.co/800x600/FFFF33/333333?text=Lenovo+P1+G3+Abierta'
+                ],
                 stock: 3,
                 isOnOffer: true,
                 discountPercentage: '20%'
@@ -502,6 +529,11 @@
                 price: 11500.00,
                 description: 'Gama Media <br> Procesador: Intel Core i7-8650U <br> Ram: 24 GB DDR4 <br> Almacenamiento: 256  GB SSD <br> Display: 14” Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: .',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
+                images: [
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
+                    'https://placehold.co/800x600/CC33FF/FFFFFF?text=Lenovo+T480s+Detalle+1',
+                    'https://placehold.co/800x600/FF33CC/FFFFFF?text=Lenovo+T480s+Detalle+2'
+                ],
                 stock: 7,
                 isOnOffer: true,
                 discountPercentage: '20%'
@@ -513,6 +545,11 @@
                 price: 10900.00,
                 description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
+                    'https://placehold.co/800x600/AACCFF/000000?text=Dell+7420+Touch+Vista+Superior',
+                    'https://placehold.co/800x600/FFCCAA/000000?text=Dell+7420+Touch+Plegada'
+                ],
                 stock: 7,
                 isOnOffer: true,
                 discountPercentage: '20%'
@@ -523,6 +560,9 @@
                 price: 18500.00,
                 description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11 .',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg',
+                images: [
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg'
+                ],
                 stock: 4,
                 isOnOffer: false
             },
@@ -532,6 +572,9 @@
                 price: 11000.00,
                 description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: .',
                 image: 'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg' ,
+                images: [
+                    'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg'
+                ],
                 stock: 6,
                 isOnOffer: false
             },
@@ -541,6 +584,9 @@
                 price: 18900.00,
                 description: 'Gama Alta <br> Procesador: Intel Core i7 12700H <br> Ram: 32 GB DDR5 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD 120 hz <br> GPU: NVIDIA RTX 3060 6GB <br> Sistema Operativo: Windows 11.',
                 image: 'https://i.ebayimg.com/images/g/R7UAAOSwLL1n8~br/s-l1600.webp',
+                images: [
+                    'https://i.ebayimg.com/images/g/R7UAAOSwLL1n8~br/s-l1600.webp'
+                ],
                 stock: 8,
                 isOnOffer: false
             },
@@ -550,6 +596,9 @@
                 price: 7200.00,
                 description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.', 
                 image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg'
+                ],
                 stock: 8,
                 isOnOffer: false
             },
@@ -559,6 +608,9 @@
                 price: 5800.00,
                 description: 'Gama Media <br> Procesador: Intel Core i5-8250U <br> Ram: 8GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://i.ibb.co/mrj3R19C/Photo-Room-20250607-141610.png',
+                images: [
+                    'https://i.ibb.co/mrj3R19C/Photo-Room-20250607-141610.png'
+                ],
                 stock: 10,
                 isOnOffer: false
             },
@@ -568,13 +620,16 @@
                 price: 6900.00,
                 description: 'Gama Media <br> Procesador: Intel Core i5-8365U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 15,6" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/51EWAGvEjWL._AC_SL1500_.jpg',
+                images: [
+                    'https://m.media-amazon.com/images/I/51EWAGvEjWL._AC_SL1500_.jpg'
+                ],
                 stock: 10,
                 isOnOffer: false
             },
         ];
         // Referencias a elementos del DOM
         const productGrid = document.getElementById('product-grid');
-        const offersGrid = document.getElementById('offers-grid'); // Nuevo: para la sección de ofertas
+        const offersGrid = document.getElementById('offers-grid');
         const cartIcon = document.getElementById('cart-icon');
         const cartCount = document.getElementById('cart-count');
         const cartModalOverlay = document.getElementById('cart-modal-overlay');
@@ -605,19 +660,21 @@
         const diagnosisLoader = document.getElementById('diagnosis-loader');
         const diagnosisError = document.getElementById('diagnosis-error');
 
-        // Referencias para el modal de imagen
+        // Referencias para el modal de imagen (incluyendo los nuevos elementos para la galería)
         const imageModalOverlay = document.getElementById('image-modal-overlay');
         const closeModalImageBtn = document.getElementById('close-image-modal');
         const modalImage = document.getElementById('modal-image');
-        const modalProductName = document.getElementById('modal-product-name'); // NUEVO
-        const modalProductDescription = document.getElementById('modal-product-description'); // NUEVO
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalPrevBtn = document.getElementById('modal-prev-btn'); // Nuevo
+        const modalNextBtn = document.getElementById('modal-next-btn'); // Nuevo
+        const modalImageIndicators = document.getElementById('modal-image-indicators'); // Nuevo
 
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
             const productCard = document.createElement('div');
-            // La clase flex-grow en product-card-content asegura que las tarjetas tengan alturas consistentemente
-            productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative'; // Añadido 'relative' para el badge
+            productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative';
 
             let priceHtml = `<span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>`;
             let offerBadge = '';
@@ -635,13 +692,11 @@
             const buttonDisabled = product.stock === 0 ? 'opacity-50 cursor-not-allowed' : '';
             const buttonText = product.stock === 0 ? 'Agotado' : '<i class="fas fa-cart-plus mr-2"></i>Agregar';
 
-
             productCard.innerHTML = `
                 ${offerBadge}
-                <!-- Ajuste: h-32 por defecto en móviles, h-48 en pantallas medianas y superiores -->
                 <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
-                <!-- Ajuste: Altura fija para la descripción en móviles, overflow-hidden para cortar texto si es muy largo -->
                 <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
+                <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
                 <p class="text-sm font-open-sans text-gray-600 mb-2 h-20 overflow-hidden">${product.description}</p>
                 <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
                 <div class="flex justify-between items-center mt-auto">
@@ -660,8 +715,8 @@
             products.filter(p => !p.isOnOffer).forEach(product => { // Mostrar solo los que NO están en oferta aquí
                 productGrid.appendChild(createProductCard(product));
             });
-            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
-            attachImageClickListeners(); // Adjuntar listeners para el modal de imagen
+            attachAddToCartListeners();
+            attachImageClickListeners();
         }
 
         // Función para renderizar los productos en oferta
@@ -670,16 +725,14 @@
             products.filter(p => p.isOnOffer).forEach(product => {
                 offersGrid.appendChild(createProductCard(product));
             });
-            attachAddToCartListeners(); // Adjuntar listeners después de renderizar
-            attachImageClickListeners(); // Adjuntar listeners para el modal de imagen
+            attachAddToCartListeners();
+            attachImageClickListeners();
         }
 
         // Función para adjuntar event listeners a los botones "Agregar al Carrito"
         function attachAddToCartListeners() {
             document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                // Remover listeners existentes para evitar duplicados
-                button.removeEventListener('click', handleAddToCartClick);
-                // Añadir nuevo listener
+                button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
                 button.addEventListener('click', handleAddToCartClick);
             });
         }
@@ -707,8 +760,8 @@
                 }
                 product.stock--; // Decrementar stock
                 updateCartUI();
-                renderProducts(); // Re-renderizar para actualizar el stock visible
-                renderOffers(); // Re-renderizar para actualizar el stock visible en ofertas
+                renderProducts();
+                renderOffers();
                 showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
             }
         }
@@ -723,8 +776,8 @@
                 }
                 cart = cart.filter(item => item.id !== productId);
                 updateCartUI();
-                renderProducts(); // Re-renderizar para actualizar el stock visible
-                renderOffers(); // Re-renderizar para actualizar el stock visible en ofertas
+                renderProducts();
+                renderOffers();
             }
         }
 
@@ -732,9 +785,7 @@
         function updateCartUI() {
             const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-            // Actualiza el contador del carrito en el encabezado
             cartCount.textContent = totalItemsInCart;
-            // Actualiza el contador del carrito flotante
             document.getElementById('cart-count-floating').textContent = totalItemsInCart;
 
             cartItemsList.innerHTML = '';
@@ -766,7 +817,6 @@
                     total += item.price * item.quantity;
                 });
 
-                // Añadir event listeners a los botones "Eliminar" del carrito
                 document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
                     button.addEventListener('click', (event) => {
                         const productId = parseInt(event.currentTarget.dataset.productId);
@@ -784,12 +834,10 @@
             messageDiv.textContent = message;
             document.body.appendChild(messageDiv);
 
-            // Animar entrada
             setTimeout(() => {
                 messageDiv.classList.add('opacity-100', 'translate-y-0');
             }, 10);
 
-            // Animar salida y remover
             setTimeout(() => {
                 messageDiv.classList.remove('opacity-100', 'translate-y-0');
                 messageDiv.classList.add('opacity-0', 'translate-y-4');
@@ -797,7 +845,7 @@
             }, 3000);
         }
 
-        // Abrir/Cerrar Carrito Modal (para el ícono del encabezado y el botón flotante)
+        // Abrir/Cerrar Carrito Modal
         cartIcon.addEventListener('click', () => {
             cartModalOverlay.classList.add('active');
         });
@@ -809,7 +857,6 @@
             cartModalOverlay.classList.remove('active');
         });
 
-        // Cerrar modal al hacer clic fuera
         cartModalOverlay.addEventListener('click', (event) => {
             if (event.target === cartModalOverlay) {
                 cartModalOverlay.classList.remove('active');
@@ -822,15 +869,14 @@
                 showTemporaryMessage('Tu carrito está vacío. Agrega productos antes de finalizar.', 'bg-red-500');
                 return;
             }
-            cartModalOverlay.classList.remove('active'); // Cerrar carrito
-            whatsappModalOverlay.classList.add('active'); // Abrir WhatsApp modal
+            cartModalOverlay.classList.remove('active');
+            whatsappModalOverlay.classList.add('active');
         });
 
         closeWhatsappModalBtn.addEventListener('click', () => {
             whatsappModalOverlay.classList.remove('active');
         });
 
-        // Cerrar modal al hacer clic fuera
         whatsappModalOverlay.addEventListener('click', (event) => {
             if (event.target === whatsappModalOverlay) {
                 whatsappModalOverlay.classList.remove('active');
@@ -847,24 +893,22 @@
             orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
             orderDetails += "Por favor, contáctenme para concretar la compra.";
 
-            // Número de WhatsApp Business (ejemplo, reemplaza con el real)
-            const whatsappNumber = "527713951347"; // Formato: Código de país + número sin espacios ni símbolos
+            const whatsappNumber = "527713951347";
 
             const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(orderDetails)}`;
 
-            window.open(whatsappLink, '_blank'); // Abrir WhatsApp en una nueva pestaña
-            cart = []; // Vaciar el carrito después de enviar el pedido
+            window.open(whatsappLink, '_blank');
+            cart = [];
             updateCartUI();
-            whatsappModalOverlay.classList.remove('active'); // Cerrar modal de WhatsApp
+            whatsappModalOverlay.classList.remove('active');
             showTemporaryMessage('Pedido enviado a WhatsApp. ¡Pronto te contactaremos!', 'bg-accent-green');
         });
 
         // Funcionalidad de la barra de búsqueda
         searchToggle.addEventListener('click', () => {
             searchInput.classList.toggle('hidden');
-            // Ajuste para que el input ocupe el ancho completo en móvil cuando es visible
             if (!searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('w-full', 'md:w-48'); // Asegura ancho completo en móvil
+                searchInput.classList.add('w-full', 'md:w-48');
                 searchInput.focus();
             } else {
                 searchInput.classList.remove('w-full', 'md:w-48');
@@ -873,8 +917,7 @@
 
         // Funcionalidad del botón de cotizar reparación
         document.getElementById('cotizar-reparacion-btn').addEventListener('click', (event) => {
-            event.preventDefault(); // Evita que el enlace salte a otra sección si tiene '#'
-            // Puedes pre-llenar un mensaje específico para cotización
+            event.preventDefault();
             const whatsappNumber = "527713951347";
             const message = "¡Hola SIA TEC! Me gustaría solicitar una cotización para un servicio de reparación de laptop. ¿Podrían darme más información?";
             const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
@@ -898,9 +941,9 @@
         // Abrir/Cerrar Modal de Diagnóstico
         aiDiagnosisBtn.addEventListener('click', () => {
             diagnosisModalOverlay.classList.add('active');
-            problemDescriptionTextarea.value = ''; // Limpiar textarea al abrir
-            diagnosisResultDiv.classList.add('hidden'); // Ocultar resultado anterior
-            diagnosisError.classList.add('hidden'); // Ocultar errores anteriores
+            problemDescriptionTextarea.value = '';
+            diagnosisResultDiv.classList.add('hidden');
+            diagnosisError.classList.add('hidden');
         });
 
         closeDiagnosisModalBtn.addEventListener('click', () => {
@@ -923,7 +966,7 @@
 
             diagnosisResultDiv.classList.add('hidden');
             diagnosisError.classList.add('hidden');
-            diagnosisLoader.classList.remove('hidden'); // Mostrar loader
+            diagnosisLoader.classList.remove('hidden');
 
             try {
                 let chatHistory = [];
@@ -946,7 +989,7 @@
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const text = result.candidates[0].content.parts[0].text;
-                    diagnosisTextDiv.innerHTML = text.replace(/\n/g, '<br>'); // Formatear saltos de línea
+                    diagnosisTextDiv.innerHTML = text.replace(/\n/g, '<br>');
                     diagnosisResultDiv.classList.remove('hidden');
                 } else {
                     diagnosisError.classList.remove('hidden');
@@ -956,24 +999,61 @@
                 diagnosisError.classList.remove('hidden');
                 console.error('Error al llamar a la API de Gemini:', error);
             } finally {
-                diagnosisLoader.classList.add('hidden'); // Ocultar loader
+                diagnosisLoader.classList.add('hidden');
             }
         });
 
-        // Funcionalidad del modal de imagen (zoom)
+        // --- Funcionalidad de la galería de imágenes en el modal de zoom ---
+
+        // Función para actualizar la imagen del modal y los indicadores
+        function updateModalImageAndIndicators() {
+            modalImage.src = currentProductImageUrls[currentImageCarouselIndex];
+
+            // Ocultar/mostrar flechas si solo hay una imagen
+            if (currentProductImageUrls.length <= 1) {
+                modalPrevBtn.classList.add('hidden');
+                modalNextBtn.classList.add('hidden');
+                modalImageIndicators.classList.add('hidden');
+            } else {
+                modalPrevBtn.classList.remove('hidden');
+                modalNextBtn.classList.remove('hidden');
+                modalImageIndicators.classList.remove('hidden');
+            }
+
+            modalImageIndicators.innerHTML = ''; // Limpiar indicadores existentes
+            currentProductImageUrls.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `inline-block w-3 h-3 rounded-full bg-gray-400 cursor-pointer mx-1 transition-colors ${index === currentImageCarouselIndex ? 'bg-accent-blue' : ''}`;
+                dot.addEventListener('click', () => {
+                    currentImageCarouselIndex = index;
+                    updateModalImageAndIndicators();
+                });
+                modalImageIndicators.appendChild(dot);
+            });
+        }
+
+        // Event listener para abrir el modal de imagen
         function attachImageClickListeners() {
             document.querySelectorAll('.product-card img').forEach(img => {
                 img.addEventListener('click', (event) => {
-                    const fullImageUrl = event.target.dataset.fullImage || event.target.src;
-                    const productId = parseInt(event.target.dataset.productId); // Obtener el ID del producto
-                    const product = products.find(p => p.id === productId); // Encontrar el producto
+                    const productId = parseInt(event.target.dataset.productId);
+                    const product = products.find(p => p.id === productId);
 
-                    modalImage.src = fullImageUrl;
-                    
+                    if (product && product.images && product.images.length > 0) {
+                        currentProductImageUrls = product.images;
+                        currentImageCarouselIndex = 0; // Siempre empezar por la primera imagen al abrir
+                        updateModalImageAndIndicators();
+                    } else {
+                        // Fallback si no hay array de imágenes o está vacío
+                        modalImage.src = event.target.src;
+                        currentProductImageUrls = [event.target.src]; // Solo una imagen
+                        currentImageCarouselIndex = 0;
+                        updateModalImageAndIndicators(); // Para ocultar nav/indicadores
+                    }
+
                     if (product) {
-                        modalProductName.textContent = product.name; // Mostrar el nombre del producto
-                        // Reemplazar <br> por saltos de línea reales para la descripción
-                        modalProductDescription.innerHTML = product.description.replace(/<br>/g, '<br>'); 
+                        modalProductName.textContent = product.name;
+                        modalProductDescription.innerHTML = product.description.replace(/<br>/g, '<br>');
                     } else {
                         modalProductName.textContent = '';
                         modalProductDescription.textContent = '';
@@ -984,10 +1064,24 @@
             });
         }
 
+        // Navegación del carrusel: Botón Anterior
+        modalPrevBtn.addEventListener('click', () => {
+            currentImageCarouselIndex = (currentImageCarouselIndex - 1 + currentProductImageUrls.length) % currentProductImageUrls.length;
+            updateModalImageAndIndicators();
+        });
+
+        // Navegación del carrusel: Botón Siguiente
+        modalNextBtn.addEventListener('click', () => {
+            currentImageCarouselIndex = (currentImageCarouselIndex + 1) % currentProductImageUrls.length;
+            updateModalImageAndIndicators();
+        });
+
+        // Cerrar modal de imagen
         closeModalImageBtn.addEventListener('click', () => {
             imageModalOverlay.classList.remove('active');
         });
 
+        // Cerrar modal al hacer clic fuera del contenido
         imageModalOverlay.addEventListener('click', (event) => {
             if (event.target === imageModalOverlay) {
                 imageModalOverlay.classList.remove('active');
@@ -996,8 +1090,8 @@
 
         // Inicializar la página
         document.addEventListener('DOMContentLoaded', () => {
-            renderOffers(); // Renderizar ofertas primero
-            renderProducts(); // Luego renderizar productos (excluyendo los de oferta)
+            renderOffers();
+            renderProducts();
             updateCartUI();
         });
     </script>
