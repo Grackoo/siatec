@@ -302,6 +302,33 @@
             </div>
     </section>
 
+    <!-- Sección de Licencias de Windows -->
+    <section id="licenses" class="py-16 px-6 md:px-12 bg-white">
+        <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Licencias de Windows 🔑</h2>
+        <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <!-- Tarjeta para Windows 10 Pro -->
+            <div class="product-card bg-base-light p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                <img src="https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+10+Pro" alt="Windows 10 Pro License" class="w-32 h-auto object-contain mb-4 rounded-lg">
+                <h3 class="text-2xl font-montserrat font-semibold mb-2">Windows 10 Pro</h3>
+                <p class="text-md font-open-sans text-gray-700 mb-4">Adquiere tu licencia original de Windows 10 Pro. Ideal para negocios y usuarios avanzados que requieren características de seguridad y gestión adicionales.</p>
+                <span class="text-2xl font-montserrat font-bold text-accent-blue mb-4">$2,500.00 MXN</span>
+                <button class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl" data-product-id="100">
+                    <i class="fas fa-shopping-cart mr-2"></i>Comprar Ahora
+                </button>
+            </div>
+            <!-- Tarjeta para Windows 11 Pro -->
+            <div class="product-card bg-base-light p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                <img src="https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro" alt="Windows 11 Pro License" class="w-32 h-auto object-contain mb-4 rounded-lg">
+                <h3 class="text-2xl font-montserrat font-semibold mb-2">Windows 11 Pro</h3>
+                <p class="text-md font-open-sans text-gray-700 mb-4">Actualiza a la última versión con una licencia original de Windows 11 Pro. Disfruta de una interfaz moderna y nuevas funciones de productividad.</p>
+                <span class="text-2xl font-montserrat font-bold text-accent-blue mb-4">$3,500.00 MXN</span>
+                <button class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl" data-product-id="101">
+                    <i class="fas fa-shopping-cart mr-2"></i>Comprar Ahora
+                </button>
+            </div>
+        </div>
+    </section>
+
     <section id="services" class="py-16 px-6 md:px-12 bg-white">
         <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Servicios de Reparación</h2>
         <div class="max-w-3xl mx-auto text-center">
@@ -670,6 +697,27 @@
                 stock: 10,
                 isOnOffer: false
             },
+            // Nuevos productos para licencias de Windows
+            {
+                id: 100,
+                name: 'Licencia Windows 10 Pro (ESD)',
+                price: 2500.00,
+                description: 'Licencia digital para Windows 10 Pro. Ideal para usuarios empresariales y avanzados. Activación instantánea.',
+                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+10+Pro',
+                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+10+Pro'],
+                stock: 99,
+                isOnOffer: false
+            },
+            {
+                id: 101,
+                name: 'Licencia Windows 11 Pro (ESD)',
+                price: 3500.00,
+                description: 'Licencia digital para Windows 11 Pro. Disfruta de la última experiencia Windows con seguridad y características mejoradas.',
+                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro',
+                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro'],
+                stock: 99,
+                isOnOffer: false
+            }
         ];
         // Referencias a elementos del DOM
         const productGrid = document.getElementById('product-grid');
@@ -782,7 +830,7 @@
 - Presupuesto: ${budget} MXN
 
 **Catálogo de Laptops de SIA TEC (en formato JSON):**
-${JSON.stringify(products, null, 2)}
+${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
 
 Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
 
@@ -791,7 +839,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiKey = ""; // La clave API será proporcionada por el entorno de Canvas
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -866,7 +914,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         // Función para renderizar los productos en la sección principal
         function renderProducts() {
             productGrid.innerHTML = '';
-            products.filter(p => !p.isOnOffer).forEach(product => { // Mostrar solo los que NO están en oferta aquí
+            products.filter(p => !p.isOnOffer && p.id < 100).forEach(product => { // Mostrar solo laptops (id < 100) y que NO están en oferta aquí
                 productGrid.appendChild(createProductCard(product));
             });
             attachAddToCartListeners();
@@ -882,21 +930,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             attachAddToCartListeners();
             attachImageClickListeners();
         }
-
-        // Función para adjuntar event listeners a los botones "Agregar al Carrito"
-        function attachAddToCartListeners() {
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
-                button.addEventListener('click', handleAddToCartClick);
-            });
-        }
-
-        // Handler para el clic en "Agregar al Carrito"
-        function handleAddToCartClick(event) {
-            const productId = parseInt(event.currentTarget.dataset.productId);
-            addToCart(productId);
-        }
-
+        
         // Función para añadir un producto al carrito
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
@@ -912,29 +946,44 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 } else {
                     cart.push({ ...product, quantity: 1 });
                 }
-                product.stock--; // Decrementar stock
+                product.stock--; // Decrementar stock (si es una laptop física)
                 updateCartUI();
-                renderProducts();
+                renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
                 renderOffers();
                 showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
             }
         }
-
+        
         // Función para eliminar un producto del carrito
         function removeFromCart(productId) {
             const productInCart = cart.find(item => item.id === productId);
             if (productInCart) {
                 const originalProduct = products.find(p => p.id === productId);
-                if (originalProduct) {
-                    originalProduct.stock += productInCart.quantity; // Devolver stock
+                if (originalProduct && originalProduct.id < 100) { // Solo devolver stock si es una laptop física
+                    originalProduct.stock += productInCart.quantity; 
                 }
                 cart = cart.filter(item => item.id !== productId);
                 updateCartUI();
-                renderProducts();
+                renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
                 renderOffers();
             }
         }
 
+
+        // Función para adjuntar event listeners a los botones "Agregar al Carrito"
+        function attachAddToCartListeners() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.removeEventListener('click', handleAddToCartClick); // Evitar duplicados
+                button.addEventListener('click', handleAddToCartClick);
+            });
+        }
+
+        // Handler para el clic en "Agregar al Carrito"
+        function handleAddToCartClick(event) {
+            const productId = parseInt(event.currentTarget.dataset.productId);
+            addToCart(productId);
+        }
+        
         // Función para actualizar la interfaz del carrito
         function updateCartUI() {
             const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1128,7 +1177,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiKey = ""; // La clave API será proporcionada por el entorno de Canvas
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
