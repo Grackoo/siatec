@@ -15,6 +15,7 @@
                         'accent-green': '#7FFF00', // Verde Neón/Lima Brillante
                         'base-light': '#F9FAFB', // Gris muy claro para fondo
                         'text-dark': '#333333',  // Gris oscuro para texto
+                        'purple-600': '#8A2BE2', // Nuevo color para el botón del asistente de laptops
                     },
                     fontFamily: {
                         montserrat: ['Montserrat', 'sans-serif'],
@@ -270,6 +271,10 @@
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap">
                 <a href="#products" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Explora Laptops</a>
                 <a href="#services" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Solicitar Reparación</a>
+                <!-- Nuevo botón para el Asistente de Laptops -->
+                <button id="laptop-assistant-btn" class="inline-block bg-purple-600 text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                    Asesor de Laptops ✨
+                </button>
             </div>
         </div>
     </section>
@@ -455,6 +460,43 @@
         </div>
     </div >
 
+    <!-- Nuevo Modal para el Asistente de Laptops -->
+    <div id="laptop-assistant-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-3xl font-montserrat font-bold">Asesor de Laptops 🧑‍💻</h3>
+                <button id="close-laptop-assistant-modal" class="text-gray-600 hover:text-gray-900 text-3xl focus:outline-none p-2 rounded-full hover:bg-gray-100">&times;</button>
+            </div>
+            <p class="text-md font-open-sans mb-4">¡Te ayudamos a encontrar la laptop perfecta! Responde a las siguientes preguntas:</p>
+
+            <div class="mb-4">
+                <label for="profession-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿A qué te dedicas?</label>
+                <textarea id="profession-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-24" placeholder="Ej: Estudiante de ingeniería, diseñador gráfico, profesional de ventas..."></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="programs-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿Qué programas o software utilizas?</label>
+                <textarea id="programs-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans resize-y h-24" placeholder="Ej: Suite Adobe (Photoshop, Illustrator), AutoCAD, Visual Studio Code, Microsoft Office, juegos..."></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label for="budget-input" class="block text-text-dark text-lg font-montserrat font-semibold mb-2">¿Cuál es tu presupuesto aproximado en MXN?</label>
+                <input type="number" id="budget-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue text-base font-open-sans" placeholder="Ej: 15000, 25000, 35000" min="0">
+            </div>
+
+            <button id="get-laptop-recommendation-btn" class="w-full bg-purple-600 text-white font-montserrat font-semibold py-3 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                Obtener Recomendación
+            </button>
+
+            <div id="laptop-recommendation-result" class="mt-8 p-4 bg-base-light rounded-xl border border-gray-200 hidden">
+                <h4 class="text-xl font-montserrat font-bold mb-3">Tu Laptop Ideal:</h4>
+                <div id="recommendation-text" class="text-md font-open-sans leading-relaxed"></div>
+            </div>
+            <div id="laptop-recommendation-loader" class="loader hidden"></div>
+            <p id="laptop-recommendation-error" class="text-red-500 text-center mt-4 hidden">Ocurrió un error al obtener la recomendación. Inténtalo de nuevo.</p>
+        </div>
+    </div>
+
     <div id="image-modal-overlay" class="modal-overlay">
         <div class="modal-content relative p-4 bg-white rounded-lg shadow-xl max-w-2xl lg:max-w-4xl text-center">
             <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
@@ -527,7 +569,7 @@
                 name: 'Lenovo ThinkPad T480s',
                 originalPrice: 13800.00, // Precio original
                 price: 11500.00,
-                description: 'Gama Media <br> Procesador: Intel Core i7-8650U <br> Ram: 24 GB DDR4 <br> Almacenamiento: 256  GB SSD <br> Display: 14” Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: .',
+                description: 'Gama Media <br> Procesador: Intel Core i7-8650U <br> Ram: 24 GB DDR4 <br> Almacenamiento: 256  GB SSD <br> Display: 14” Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 Pro.',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
                 images: [
                     'https://p1-ofp.static.pub/medias/bWFzdGVyfC9lbWVhL2ltYWdlcy98NjYwMTd8aW1hZ2UvcG5nfC9lbWVhL2ltYWdlcy9oNWIvaDUzLzk2OTEwMjU4MzQwMTQucG5nfDUxM2UxYzc5ZThjYjVmZjAxMjA2OTFlYTQ3ZWY5MDUxNDczNTllOWIzMzRmNjJmOGM5NjM2MzIyYzJiNWQwNWI/thinkpad-t480s-400x300prod.png',
@@ -543,7 +585,7 @@
                 name: 'Dell Latitude 7420 Touch',
                 originalPrice: 13625, // Precio original
                 price: 10900.00,
-                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
                 images: [
                     'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
@@ -558,7 +600,7 @@
                 id: 4,
                 name: 'Lenovo ThinkPad P15s G1',
                 price: 18500.00,
-                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11 .',
+                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11.',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg',
                 images: [
                     'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg'
@@ -570,7 +612,7 @@
                 id: 5,
                 name: 'Dell Latitude 7330 Touch 2 en 1',
                 price: 11000.00,
-                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: .',
+                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: Windows 11.',
                 image: 'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg' ,
                 images: [
                     'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg'
@@ -594,7 +636,7 @@
                 id: 7,
                 name: 'Dell Latitude 5420 ',
                 price: 7200.00,
-                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.', 
+                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.', 
                 image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
                 images: [
                     'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
@@ -672,6 +714,116 @@
         const modalNextBtn = document.getElementById('modal-next-btn'); // Nuevo
         const modalImageIndicators = document.getElementById('modal-image-indicators'); // Nuevo
 
+        // Get references for the new laptop assistant modal elements
+        const laptopAssistantBtn = document.getElementById('laptop-assistant-btn');
+        const laptopAssistantModalOverlay = document.getElementById('laptop-assistant-modal-overlay');
+        const closeLaptopAssistantModalBtn = document.getElementById('close-laptop-assistant-modal');
+        const professionInput = document.getElementById('profession-input');
+        const programsInput = document.getElementById('programs-input');
+        const budgetInput = document.getElementById('budget-input');
+        const getLaptopRecommendationBtn = document.getElementById('get-laptop-recommendation-btn');
+        const laptopRecommendationResult = document.getElementById('laptop-recommendation-result');
+        const recommendationText = document.getElementById('recommendation-text');
+        const laptopRecommendationLoader = document.getElementById('laptop-recommendation-loader');
+        const laptopRecommendationError = document.getElementById('laptop-recommendation-error');
+
+        // Function to open the laptop assistant modal
+        function openLaptopAssistantModal() {
+            laptopAssistantModalOverlay.classList.add('active');
+            // Clear previous results and inputs
+            professionInput.value = '';
+            programsInput.value = '';
+            budgetInput.value = '';
+            recommendationText.innerHTML = '';
+            laptopRecommendationResult.classList.add('hidden');
+            laptopRecommendationLoader.classList.add('hidden');
+            laptopRecommendationError.classList.add('hidden');
+        }
+
+        // Function to close the laptop assistant modal
+        function closeLaptopAssistantModal() {
+            laptopAssistantModalOverlay.classList.remove('active');
+        }
+
+        // Event listeners for the laptop assistant modal
+        laptopAssistantBtn.addEventListener('click', openLaptopAssistantModal);
+        closeLaptopAssistantModalBtn.addEventListener('click', closeLaptopAssistantModal);
+        laptopAssistantModalOverlay.addEventListener('click', (e) => {
+            if (e.target === laptopAssistantModalOverlay) {
+                closeLaptopAssistantModal();
+            }
+        });
+
+        // --- NEW: Laptop Recommendation Logic with Gemini API ---
+        getLaptopRecommendationBtn.addEventListener('click', async () => {
+            const profession = professionInput.value.trim();
+            const programs = programsInput.value.trim();
+            const budget = budgetInput.value.trim();
+
+            if (!profession || !programs || !budget) {
+                showTemporaryMessage('Por favor, completa todos los campos para la recomendación.', 'bg-red-500');
+                return;
+            }
+
+            // Show loader, hide previous results/errors
+            laptopRecommendationLoader.classList.remove('hidden');
+            laptopRecommendationResult.classList.add('hidden');
+            laptopRecommendationError.classList.add('hidden');
+            recommendationText.innerHTML = '';
+
+            try {
+                let chatHistory = [];
+                // Construct the prompt for Gemini, including the full products catalog
+                const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
+
+**Información del Cliente:**
+- Profesión: ${profession}
+- Programas/Software: ${programs}
+- Presupuesto: ${budget} MXN
+
+**Catálogo de Laptops de SIA TEC (en formato JSON):**
+${JSON.stringify(products, null, 2)}
+
+Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
+
+Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
+`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    recommendationText.innerHTML = text.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
+                    laptopRecommendationResult.classList.remove('hidden');
+                } else {
+                    laptopRecommendationError.classList.remove('hidden');
+                    console.error('Estructura de respuesta inesperada del LLM:', result);
+                    recommendationText.innerHTML = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
+                    laptopRecommendationResult.classList.remove('hidden');
+                }
+            } catch (error) {
+                laptopRecommendationError.classList.remove('hidden');
+                console.error('Error al llamar a la API de Gemini para la recomendación:', error);
+                recommendationText.innerHTML = "Ocurrió un error al obtener la recomendación. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
+                laptopRecommendationResult.classList.remove('hidden');
+            } finally {
+                laptopRecommendationLoader.classList.add('hidden');
+            }
+        });
+        // --- END NEW: Laptop Recommendation Logic ---
 
         // Función para renderizar un producto individual (usado por ambas secciones)
         function createProductCard(product) {
