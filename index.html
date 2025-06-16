@@ -841,7 +841,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -880,13 +880,13 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             const productCard = document.createElement('div');
             productCard.className = 'product-card bg-white p-6 rounded-xl shadow-md flex flex-col justify-between transform transition-all duration-300 ease-in-out hover:scale-105 relative';
 
-            let priceHtml = `<span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>`;
+            let priceHtml = `<span class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>`; // Ajustado tamaño y color para la imagen
             let offerBadge = '';
 
             if (product.isOnOffer) {
                 priceHtml = `
-                    <span class="original-price mr-2">$${product.originalPrice.toFixed(2)}</span>
-                    <span class="text-2xl font-montserrat font-bold text-accent-blue">$${product.price.toFixed(2)}</span>
+                    <span class="original-price text-sm text-gray-300 mr-1">$${product.originalPrice.toFixed(2)}</span> <!-- Ajustado tamaño y color -->
+                    <span class="text-xl font-montserrat font-bold text-white">$${product.price.toFixed(2)}</span>
                 `;
                 offerBadge = `<span class="offer-badge">¡${product.discountPercentage} OFF!</span>`;
             }
@@ -898,9 +898,13 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
 
             productCard.innerHTML = `
                 ${offerBadge}
-                <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-2 rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
-                <div class="flex justify-end mb-2">${priceHtml}</div> <!-- Precio movido aquí y alineado a la derecha -->
-                <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
+                <div class="relative w-full"> <!-- Contenedor para la imagen y el precio, con posición relativa -->
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
+                    <div class="absolute bottom-2 right-2 bg-black/70 rounded-lg px-2 py-1 flex items-center justify-center"> <!-- Precio posicionado absolutamente -->
+                        ${priceHtml}
+                    </div>
+                </div>
+                <h3 class="text-xl font-montserrat font-semibold mt-4 mb-2">${product.name}</h3> <!-- Margen ajustado después del bloque de imagen/precio -->
                 <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
                 <p class="text-sm font-open-sans text-gray-600 mb-4 h-20 overflow-hidden">${product.description}</p>
                 <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
@@ -1179,7 +1183,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0";  // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiKey = "";  // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
