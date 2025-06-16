@@ -264,19 +264,24 @@
         </nav>
     </div>
 
-    <section id="hero" class="relative bg-center h-screen flex items-center justify-center text-center rounded-b-xl"
+    <section id="hero" class="relative bg-center h-screen text-center rounded-b-xl"
         style="background-image: url('https://i.ibb.co/Fb93s8Wf/1749964525606.png'); background-size: contain; background-repeat: repeat;">
         <div class="absolute inset-0 bg-black opacity-40 rounded-b-xl"></div>
-        <div class="relative z-10 p-8 max-w-4xl mx-auto">
-            <h1 class="text-5xl md:text-7xl font-montserrat font-bold text-white leading-tight mb-2">Soluciones Informaticas Avanzadas.</h1>
-            <p class="text-xl md:text-2xl font-open-sans text-gray-200 mb-10">Venta y Reparación de Equipos de computo con Garantía y Eficiencia.</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap">
-                <a href="#products" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Explora Laptops</a>
-                <a href="#services" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Solicitar Reparación</a>
-                <!-- Nuevo botón para el Asistente de Laptops -->
-                <button id="laptop-assistant-btn" class="inline-block bg-purple-600 text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
-                    Descubre la computadora ideal para ti ✨
-                </button>
+        <div class="relative z-10 p-8 max-w-4xl mx-auto flex flex-col h-full">
+            <!-- Título movido al inicio y sin margen inferior automático -->
+            <h1 class="text-5xl md:text-7xl font-montserrat font-bold text-white leading-tight mt-0">Soluciones Informaticas Avanzadas.</h1>
+
+            <!-- Este contenedor se empuja al final de la sección -->
+            <div class="mt-auto">
+                <p class="text-xl md:text-2xl font-open-sans text-gray-200 mb-10">Venta y Reparación de Equipos de computo con Garantía y Eficiencia.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 flex-wrap">
+                    <a href="#products" class="inline-block bg-accent-blue text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">Explora Laptops</a>
+                    <a href="#services" class="inline-block bg-accent-green text-text-dark font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-green-hover-effect rounded-xl">Solicitar Reparación</a>
+                    <!-- Nuevo botón para el Asistente de Laptops -->
+                    <button id="laptop-assistant-btn" class="inline-block bg-purple-600 text-white font-montserrat font-semibold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl">
+                        Descubre la computadora ideal para ti ✨
+                    </button>
+                </div>
             </div>
         </div>
     </section>
