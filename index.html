@@ -139,20 +139,20 @@
         /* --- NUEVO CSS para el efecto de zoom y manejo de desborde --- */
         .product-card {
             /* Asegura que el contenido (la imagen con zoom) no se desborde del card */
-            overflow: hidden; 
+            overflow: hidden;
         }
 
         .product-card img {
             /* Transición suave para el efecto de zoom */
-            transition: transform 0.3s ease-in-out; 
+            transition: transform 0.3s ease-in-out;
         }
 
         .product-card img:hover {
             /* Escala la imagen al 110% (puedes ajustar el valor) */
-            transform: scale(1.1); 
+            transform: scale(1.1);
         }
         /* --- FIN de NUEVO CSS --- */
-        
+
         /* Estilos para botones flotantes */
         /* Contenedor de botones flotantes */
         .floating-buttons-container {
@@ -423,8 +423,8 @@
     <!-- Contenedor de botones flotantes -->
     <div class="floating-buttons-container">
         <!-- Botón flotante de WhatsApp -->
-        <a href="https://wa.me/527713951347?text=Hola!%20Me%20gustar%C3%ADa%20hablar%20con%20un%20t%C3%A9cnico%20sobre%20una%20reparaci%C3%B3n." 
-            target="_blank" 
+        <a href="https://wa.me/527713951347?text=Hola!%20Me%20gustar%C3%ADa%20hablar%20con%20un%20t%C3%A9cnico%20sobre%20una%20reparaci%C3%B3n."
+            target="_blank"
             class="floating-button whatsapp">
             <i class="fab fa-whatsapp"></i>
             <span class="label">Hablar con un Técnico</span>
@@ -436,7 +436,7 @@
             <span id="cart-count-floating" class="absolute -top-1 -right-1 bg-accent-green text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
         </button>
     </div>
-    
+
     <div id="cart-modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
@@ -531,7 +531,7 @@
             <button id="close-image-modal" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-3xl font-bold transition-transform duration-300 transform hover:rotate-90 p-2 rounded-full hover:bg-gray-100">
                 &times;
             </button>
-            
+
             <div class="relative mb-4 flex items-center justify-center">
                 <button id="modal-prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20 opacity-70 hover:opacity-100 transition-opacity">
                     <i class="fas fa-chevron-left"></i>
@@ -665,7 +665,7 @@
                 id: 7,
                 name: 'Dell Latitude 5420 ',
                 price: 7200.00,
-                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.', 
+                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
                 images: [
                     'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
@@ -841,7 +841,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -898,14 +898,14 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
 
             productCard.innerHTML = `
                 ${offerBadge}
-                <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-4 rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
+                <img src="${product.image}" alt="${product.name}" class="w-full h-32 md:h-48 object-contain mb-2 rounded-lg cursor-pointer" data-full-image="${product.image}" data-product-id="${product.id}">
+                <div class="flex justify-end mb-2">${priceHtml}</div> <!-- Precio movido aquí y alineado a la derecha -->
                 <h3 class="text-xl font-montserrat font-semibold mb-2">${product.name}</h3>
                 <p class="text-xs text-gray-500 mb-2">(Haz clic en la imagen para más detalles)</p>
-                <p class="text-sm font-open-sans text-gray-600 mb-2 h-20 overflow-hidden">${product.description}</p>
+                <p class="text-sm font-open-sans text-gray-600 mb-4 h-20 overflow-hidden">${product.description}</p>
                 <p class="text-sm font-open-sans ${stockColor} mb-4">${stockText}</p>
-                <div class="flex justify-between items-center mt-auto">
-                    <div>${priceHtml}</div>
-                    <button data-product-id="${product.id}" class="add-to-cart-btn bg-accent-blue text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}" ${product.stock === 0 ? 'disabled' : ''}>
+                <div class="flex justify-center mt-auto"> <!-- Contenedor para centrar el botón -->
+                    <button data-product-id="${product.id}" class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl ${buttonDisabled}" ${product.stock === 0 ? 'disabled' : ''}>
                         ${buttonText}
                     </button>
                 </div>
@@ -932,7 +932,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             attachAddToCartListeners();
             attachImageClickListeners();
         }
-        
+
         // Función para añadir un producto al carrito
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
@@ -955,14 +955,14 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
             }
         }
-        
+
         // Función para eliminar un producto del carrito
         function removeFromCart(productId) {
             const productInCart = cart.find(item => item.id === productId);
             if (productInCart) {
                 const originalProduct = products.find(p => p.id === productId);
                 if (originalProduct && originalProduct.id < 100) { // Solo devolver stock si es una laptop física
-                    originalProduct.stock += productInCart.quantity; 
+                    originalProduct.stock += productInCart.quantity;
                 }
                 cart = cart.filter(item => item.id !== productId);
                 updateCartUI();
@@ -985,7 +985,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             const productId = parseInt(event.currentTarget.dataset.productId);
             addToCart(productId);
         }
-        
+
         // Función para actualizar la interfaz del carrito
         function updateCartUI() {
             const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1179,7 +1179,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // La clave API será proporcionada por el entorno de Canvas
+                const apiKey = "";  // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
