@@ -539,27 +539,28 @@
     </div>
 
     <script type="module">
-        // Importaciones de Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Inicialización de Firebase
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo",
+    authDomain: "siatec-a88de.firebaseapp.com",
+    projectId: "siatec-a88de",
+    storageBucket: "siatec-a88de.firebasestorage.app",
+    messagingSenderId: "558101434635",
+    appId: "1:558101434635:web:38347725aa168e7587520e",
+    measurementId: "G-ZZ274STXJ7"
+  };
 
-        let app;
-        let db;
-        let auth;
-        let userId;
-
-        // Inicializar Firebase y autenticar
-        document.addEventListener('DOMContentLoaded', async () => {
-            if (Object.keys(firebaseConfig).length > 0) {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
                 // Autenticar al usuario
                 try {
                     if (typeof __initial_auth_token !== 'undefined') {
