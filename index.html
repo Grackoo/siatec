@@ -878,22 +878,22 @@
                 // Construct the prompt for Gemini, including the full products catalog
                 const prompt = `Actúa como un asesor experto de laptops para SIA TEC. Tu objetivo es recomendar la laptop más adecuada de nuestro catálogo, basándote en la profesión, los programas que utiliza y el presupuesto del cliente.
 
-**Información del Cliente:**
-- Profesión: ${profession}
-- Programas/Software: ${programs}
-- Presupuesto: ${budget} MXN
+            **Información del Cliente:**
+            - Profesión: ${profession}
+            - Programas/Software: ${programs}
+            - Presupuesto: ${budget} MXN
 
-**Catálogo de Laptops de SIA TEC (en formato JSON):**
-${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
+            **Catálogo de Laptops de SIA TEC (en formato JSON):**
+            ${JSON.stringify(products.filter(p => p.id < 100), null, 2)}
 
-Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
+            Por favor, analiza el catálogo y la información del cliente. Recomienda el modelo o modelos de laptop que mejor se adapten, justificando tu elección con base en sus especificaciones (procesador, RAM, almacenamiento, GPU, etc.) y precio. Si no hay una laptop que cumpla con todos los criterios de presupuesto, sugiere la opción más cercana y explícanos por qué.
 
-Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
-`;
+            Al final de tu recomendación, si el cliente aún no está seguro o necesita más asistencia, añade la siguiente frase exacta: "Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347."
+            `;
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = firebaseConfig.apiKey; // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -1266,7 +1266,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = firebaseConfig.apiKey;  // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0";  // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
