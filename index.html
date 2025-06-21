@@ -538,7 +538,54 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // Importaciones de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Inicialización de Firebase
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+        let app;
+        let db;
+        let auth;
+        let userId;
+
+        // Inicializar Firebase y autenticar
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (Object.keys(firebaseConfig).length > 0) {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Autenticar al usuario
+                try {
+                    if (typeof __initial_auth_token !== 'undefined') {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    userId = auth.currentUser?.uid || crypto.randomUUID();
+                    console.log("Firebase initialized and user authenticated:", userId);
+                } catch (error) {
+                    console.error("Error during Firebase authentication:", error);
+                    userId = crypto.randomUUID(); // Fallback to a random ID if authentication fails
+                }
+            } else {
+                console.warn("Firebase config not found. Data persistence will not work.");
+                userId = crypto.randomUUID(); // Generate a random ID if Firebase is not configured
+            }
+
+            // Llamadas de renderizado iniciales después de la inicialización de Firebase
+            renderOffers();
+            renderProducts();
+            renderLicenses();
+            updateCartUI();
+        });
+
+
         // Array para almacenar los productos en el carrito
         let cart = [];
 
@@ -572,7 +619,7 @@
                 description: 'Gama Alta <br> Procesador: Intel Xeon® W-10855M vPro <br> Ram: 16 GB DDR4 <br> Almacenamiento: 1 TB SSD NVME <br> Display: 15.6” FHD <br> GPU: NVIDIA® T2000 de 4GB <br> Sistema Operativo: Windows 11.',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3BuZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
                 images: [
-                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3BuZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
+                    'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8Mjg5ODU4fGltYWdlL3puZ3xoYWIvaGM5LzE0MTEwNjE3MDc1NzQyLnBuZ3w0MThjNDY4MjdkMzUyY2RiZTIwMDZkOTdkZWYxZTQyNWRjNTJlNDIyYThjMmYwNDUwZjk4YWQ4Njc1MWMzZDM1/22WS2P1P1N3.png',
                     'https://placehold.co/800x600/3366FF/FFFFFF?text=Lenovo+P1+G3+Ángulo',
                     'https://placehold.co/800x600/FFFF33/333333?text=Lenovo+P1+G3+Abierta'
                 ],
@@ -858,7 +905,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -868,19 +915,42 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 });
 
                 const result = await response.json();
+                let recommendationOutput = '';
 
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    recommendationText.innerHTML = text.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
+                    recommendationOutput = result.candidates[0].content.parts[0].text;
+                    recommendationText.innerHTML = recommendationOutput.replace(/\n/g, '<br>'); // Display HTML breaks for newlines
                     laptopRecommendationResult.classList.remove('hidden');
                 } else {
                     laptopRecommendationError.classList.remove('hidden');
                     console.error('Estructura de respuesta inesperada del LLM:', result);
-                    recommendationText.innerHTML = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
+                    recommendationOutput = "No pudimos generar una recomendación en este momento. Si aún no estás seguro o necesitas una asesoría más personalizada, no dudes en comunicarte con un técnico de SIA TEC. Puedes contactarnos por WhatsApp o llamarnos al +52 77 1395 1347.";
+                    recommendationText.innerHTML = recommendationOutput;
                     laptopRecommendationResult.classList.remove('hidden');
                 }
+
+                // Guardar la interacción en Firestore
+                if (db) {
+                    try {
+                        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
+                            userId: userId,
+                            assistant: 'laptop_recommendation',
+                            input: {
+                                profession: profession,
+                                programs: programs,
+                                budget: budget
+                            },
+                            output: recommendationOutput,
+                            timestamp: serverTimestamp()
+                        });
+                        console.log("Laptop recommendation interaction saved to Firestore.");
+                    } catch (dbError) {
+                        console.error("Error saving laptop recommendation to Firestore:", dbError);
+                    }
+                }
+
             } catch (error) {
                 laptopRecommendationError.classList.remove('hidden');
                 console.error('Error al llamar a la API de Gemini para la recomendación:', error);
@@ -1213,7 +1283,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0";  // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiKey = "";  // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -1223,20 +1293,43 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 });
 
                 const result = await response.json();
+                let diagnosisOutput = '';
 
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    const text = result.candidates[0].content.parts[0].text;
-                    diagnosisTextDiv.innerHTML = text.replace(/\n/g, '<br>');
+                    diagnosisOutput = result.candidates[0].content.parts[0].text;
+                    diagnosisTextDiv.innerHTML = diagnosisOutput.replace(/\n/g, '<br>');
                     diagnosisResultDiv.classList.remove('hidden');
                 } else {
                     diagnosisError.classList.remove('hidden');
                     console.error('Estructura de respuesta inesperada del LLM:', result);
+                    diagnosisOutput = "No pudimos generar un diagnóstico en este momento.";
+                    diagnosisTextDiv.innerHTML = diagnosisOutput;
+                    diagnosisResultDiv.classList.remove('hidden');
                 }
+
+                // Guardar la interacción en Firestore
+                if (db) {
+                    try {
+                        await addDoc(collection(db, `artifacts/${appId}/public/data/assistant_interactions`), {
+                            userId: userId,
+                            assistant: 'repair_diagnosis',
+                            input: problemDescription,
+                            output: diagnosisOutput,
+                            timestamp: serverTimestamp()
+                        });
+                        console.log("Repair diagnosis interaction saved to Firestore.");
+                    } catch (dbError) {
+                        console.error("Error saving repair diagnosis to Firestore:", dbError);
+                    }
+                }
+
             } catch (error) {
                 diagnosisError.classList.remove('hidden');
                 console.error('Error al llamar a la API de Gemini:', error);
+                diagnosisTextDiv.innerHTML = "Ocurrió un error al obtener el diagnóstico. Inténtalo de nuevo.";
+                diagnosisResultDiv.classList.remove('hidden');
             } finally {
                 diagnosisLoader.classList.add('hidden');
             }
@@ -1327,13 +1420,6 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             }
         });
 
-        // Inicializar la página
-        document.addEventListener('DOMContentLoaded', () => {
-            renderOffers();
-            renderProducts();
-            renderLicenses(); // Llama a la nueva función para renderizar las licencias
-            updateCartUI();
-        });
     </script>
 </body>
 </html>
