@@ -312,27 +312,9 @@
     <!-- Sección de Licencias de Windows -->
     <section id="licenses" class="py-16 px-6 md:px-12 bg-white">
         <h2 class="text-4xl font-montserrat font-bold text-center mb-12">Licencias y Activacion 🔑</h2>
-        <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <!-- Tarjeta para Windows 10 Pro -->
-            <div class="product-card bg-base-light p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                <img src="https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+10+Pro" alt="Windows 10 Pro License" class="w-32 h-auto object-contain mb-4 rounded-lg">
-                <h3 class="text-2xl font-montserrat font-semibold mb-2">Windows 10 Pro</h3>
-                <p class="text-md font-open-sans text-gray-700 mb-4">Adquiere tu licencia original de Windows 10 Pro. Ideal para negocios y usuarios avanzados que requieren características de seguridad y gestión adicionales.</p>
-                <span class="text-2xl font-montserrat font-bold text-accent-blue mb-4">$2,500.00 MXN</span>
-                <button class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl" data-product-id="100">
-                    <i class="fas fa-shopping-cart mr-2"></i>Comprar Ahora
-                </button>
-            </div>
-            <!-- Tarjeta para Windows 11 Pro -->
-            <div class="product-card bg-base-light p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-                <img src="https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro" alt="Windows 11 Pro License" class="w-32 h-auto object-contain mb-4 rounded-lg">
-                <h3 class="text-2xl font-montserrat font-semibold mb-2">Windows 11 Pro</h3>
-                <p class="text-md font-open-sans text-gray-700 mb-4">Actualiza a la última versión con una licencia original de Windows 11 Pro. Disfruta de una interfaz moderna y nuevas funciones de productividad.</p>
-                <span class="text-2xl font-montserrat font-bold text-accent-blue mb-4">$3,500.00 MXN</span>
-                <button class="add-to-cart-btn bg-accent-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 btn-hover-effect rounded-xl" data-product-id="101">
-                    <i class="fas fa-shopping-cart mr-2"></i>Comprar Ahora
-                </button>
-            </div>
+        <!-- Contenedor para las licencias, ahora se llenará dinámicamente -->
+        <div id="licenses-grid" class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Las tarjetas de licencias se insertarán aquí dinámicamente -->
         </div>
     </section>
 
@@ -619,7 +601,7 @@
                 name: 'Dell Latitude 7420 Touch',
                 originalPrice: 13625, // Precio original
                 price: 10900.00,
-                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                description: 'Gama Media <br> Procesador:  Intel Core i7-1185G7 <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD Nvme <br> Display: 14" Full HD <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
                 images: [
                     'https://m.media-amazon.com/images/I/81zApF7wp4L._AC_SL1500_.jpg',
@@ -634,7 +616,7 @@
                 id: 4,
                 name: 'Lenovo ThinkPad P15s G1',
                 price: 18500.00,
-                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11.',
+                description: 'Gama Alta  <br> Procesador: Intel Core i7-10510U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 512 GB SSD <br> Display: 15.6” Full HD <br> GPU: NVIDIA Quadro P520 de 2 GB <br> Sistema Operativo: Windows 11.',
                 image: 'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg',
                 images: [
                     'https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MjU1Nzk3fGltYWdlL2pwZWd8aGJhL2hkZC8xMDg0NTAyNjE1NjU3NC5qcGd8NmY1Mjc4MjhiNWE4ZTAyZGMzZDRiMGYzMGZiNzNlNWUyMDAzOTg4ZjUxYWUzYmQ3NGRlZGQyZTJhMGRhMWM4Ng/lenovo-laptop-thinkpad-P15s-gallery-2.jpg'
@@ -646,7 +628,7 @@
                 id: 5,
                 name: 'Dell Latitude 7330 Touch 2 en 1',
                 price: 11000.00,
-                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: Windows 11.',
+                description: 'Gama Media  <br> Procesador: Intel core i7-1265U <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme <br> Display: 13,3" Full HD <br> GPU: Intel Iris Xe Graphics <br> Sistema Operativo: Windows 11.',
                 image: 'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg' ,
                 images: [
                     'https://m.media-amazon.com/images/I/61v3GfK7W9L._AC_SL1000_.jpg'
@@ -670,7 +652,7 @@
                 id: 7,
                 name: 'Dell Latitude 5420 ',
                 price: 7200.00,
-                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
+                description:'Gama Media <br> Procesador: Intel Core i5-12450H <br> Ram: 16 GB DDR4 <br> Almacenamiento: 256 GB SSD Nvme  <br> Display: 14" Full HD  <br> GPU: Intel UHD Graphics 620 <br> Sistema Operativo: Windows 10 pro.',
                 image: 'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
                 images: [
                     'https://m.media-amazon.com/images/I/51pMLgaqblL._AC_SL1000_.jpg',
@@ -729,9 +711,9 @@
                 id: 102,
                 name: 'Microsoft Office Pro PLus 2021 (ESD)',
                 price: 450.00,
-                description: 'Licencia digital para Microsoft Office Pro Plus 2019. Incluye Word, Excel, PowerPoint y más. Activación instantánea.',
-                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro',
-                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro'],
+                description: 'Licencia digital para Microsoft Office Pro Plus 2021. Incluye Word, Excel, PowerPoint y más. Activación instantánea.',
+                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Office+2021+Pro',
+                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Office+2021+Pro'],
                 stock: 99,
                 isOnOffer: false
             },
@@ -740,8 +722,8 @@
                 name: 'Microsoft Office Pro PLus 2024 (ESD)',
                 price: 600.00,
                 description: 'Licencia digital para Microsoft Office Pro Plus 2024. Incluye las últimas versiones de Word, Excel, PowerPoint y más. Activación instantánea.',
-                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro',
-                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro'],
+                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Office+2024+Pro',
+                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Office+2024+Pro'],
                 stock: 99,
                 isOnOffer: false
             },
@@ -750,8 +732,8 @@
                 name: ' ESET NOD32 (2 AÑOS) (ESD)',
                 price: 650.00,
                 description: 'Antivirus ESET NOD32 para 2 años. Protección avanzada contra malware, ransomware y amenazas en línea. Licencia digital.',
-                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro',
-                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=Windows+11+Pro'],
+                image: 'https://placehold.co/200x150/0078D4/FFFFFF?text=ESET+NOD32',
+                images: ['https://placehold.co/200x150/0078D4/FFFFFF?text=ESET+NOD32'],
                 stock: 99,
                 isOnOffer: false
             }        
@@ -759,6 +741,7 @@
         // Referencias a elementos del DOM
         const productGrid = document.getElementById('product-grid');
         const offersGrid = document.getElementById('offers-grid');
+        const licensesGrid = document.getElementById('licenses-grid'); // Nueva referencia para la sección de licencias
         const cartIcon = document.getElementById('cart-icon');
         const cartCount = document.getElementById('cart-count');
         const cartModalOverlay = document.getElementById('cart-modal-overlay');
@@ -823,8 +806,7 @@
             laptopRecommendationResult.classList.add('hidden');
             laptopRecommendationLoader.classList.add('hidden');
             laptopRecommendationError.classList.add('hidden');
-        }
-
+        }                                                                                                               
         // Function to close the laptop assistant modal
         function closeLaptopAssistantModal() {
             laptopAssistantModalOverlay.classList.remove('active');
@@ -972,6 +954,16 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             attachImageClickListeners();
         }
 
+        // NUEVA Función para renderizar los productos de licencias
+        function renderLicenses() {
+            licensesGrid.innerHTML = '';
+            products.filter(p => p.id >= 100).forEach(product => { // Mostrar solo productos con ID >= 100 (licencias)
+                licensesGrid.appendChild(createProductCard(product));
+            });
+            attachAddToCartListeners();
+            attachImageClickListeners();
+        }
+
         // Función para añadir un producto al carrito
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
@@ -987,10 +979,11 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
                 } else {
                     cart.push({ ...product, quantity: 1 });
                 }
-                product.stock--; // Decrementar stock (si es una laptop física)
+                product.stock--; // Decrementar stock (si es una laptop física o licencia con stock gestionado)
                 updateCartUI();
-                renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
-                renderOffers();
+                renderProducts(); // Re-renderizar productos para reflejar cambios de stock
+                renderOffers(); // Re-renderizar ofertas para reflejar cambios de stock
+                renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
                 showTemporaryMessage('Producto agregado al carrito!', 'bg-accent-green');
             }
         }
@@ -1000,13 +993,15 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
             const productInCart = cart.find(item => item.id === productId);
             if (productInCart) {
                 const originalProduct = products.find(p => p.id === productId);
-                if (originalProduct && originalProduct.id < 100) { // Solo devolver stock si es una laptop física
+                // Devolver stock solo si es un producto con stock gestionado (laptops o licencias que no sean 'ilimitadas' como 99)
+                if (originalProduct && originalProduct.stock !== 99) { 
                     originalProduct.stock += productInCart.quantity;
                 }
                 cart = cart.filter(item => item.id !== productId);
                 updateCartUI();
                 renderProducts(); // Re-renderizar productos y ofertas para reflejar cambios de stock
                 renderOffers();
+                renderLicenses(); // Re-renderizar licencias para reflejar cambios de stock
             }
         }
 
@@ -1336,6 +1331,7 @@ Al final de tu recomendación, si el cliente aún no está seguro o necesita má
         document.addEventListener('DOMContentLoaded', () => {
             renderOffers();
             renderProducts();
+            renderLicenses(); // Llama a la nueva función para renderizar las licencias
             updateCartUI();
         });
     </script>
