@@ -903,7 +903,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyCpxjphUWeS703MS8dVK4faGeoAN5nGXoI"; // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -1276,7 +1276,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0";  // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyCpxjphUWeS703MS8dVK4faGeoAN5nGXoI";  // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
