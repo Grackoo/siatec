@@ -387,7 +387,7 @@
             <div class="flex flex-col items-start md:items-end">
                 <h3 class="text-xl font-montserrat font-bold mb-4">Síguenos</h3>
                 <div class="flex space-x-4 mb-6">
-                    <a href="https://www.facebook.com/people/Siatec-Soluciones-Inform%C3%A1ticas-Avanzadas/61577377612346/?locale=es_LA" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-facebook"></i></a>
                     <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="text-gray-400 hover:text-accent-blue transition duration-300 text-2xl"><i class="fab fa-twitter"></i></a>
                 </div>
@@ -903,7 +903,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo"; // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0"; // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -1276,7 +1276,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo";  // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyAg_b69MDCWEwcj1KvW3M86S2xEug9bNp0";  // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
