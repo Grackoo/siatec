@@ -903,7 +903,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = "AIzaSyBfSHwV1kACRQBd1eY0ejIed0KP-IQi8ok"; // Usa la apiKey de tu configuración de Firebase
+                const apiKey = "AIzaSyBU0dNMAXOfToiJ2VU0Gp1Y2v6mFGjQeZo"; // Usa la apiKey de tu configuración de Firebase
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
